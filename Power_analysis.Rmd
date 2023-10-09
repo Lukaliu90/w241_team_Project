@@ -31,7 +31,8 @@ Our study utilized samples drawn from five distinct account profiles, each creat
 
 
 ## To simulate a power analysis based on treatment effect 
-**(Need to look at the other research paper)**
+
+Drawing from previous research published in (https://doi.org/10.1016/j.chb.2020.106667), it has been established that employing humor and offering complimentary messages in the context of online dating serves as a substantial predictor for men. This body of research suggests that incorporating humor into dating profiles of men is likely to result in a greater number of matches compared to profiles devoid of humor. In the upcoming experiment, we anticipate observing a positive impact from the treatment.
 
 The provided code and plot are derived from simulating various treatment effect sizes, ranging from 5% to 100% with a 5% incremental increase, while aiming to achieve a consistent power level of 0.8. This illustrates how the necessary sample size changes with varying treatment effect sizes.
 
