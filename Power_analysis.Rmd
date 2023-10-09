@@ -7,7 +7,7 @@ output:
     number_sections: true
 ---
 
-```{r package loads, warning=FALSE, message=FALSE}
+```{r package loads, include=FALSE, warning=FALSE, message=FALSE}
 # install.packages("pwr") need to install if you don't have it yet
 library(pwr)
 library(data.table)
@@ -84,12 +84,16 @@ plot(sample_sizes, treatment_effect_sizes, type = "l", col = "blue",
      main = "Power Analysis based on treatment effect")
 
 # Add a horizontal line for the desired power
-abline(h = power, col = "red", lty = 2)
-abline(v = target_effect_size, col = "orange", lty = 2)
-# Add legend
-legend("topright", legend = c("Desired Power", "Treatment Effect Size"), 
-       col = c("red", "blue"), lty = c(2, 1))
+abline(h = target_effect_size, col = "red", lty = 2)
+abline(v = target_sample_size, col = "orange", lty = 2)
 
+# Add legend
+legend("topright", legend = c("Target Effect Size", "Target Sample Size"), 
+       col = c("red", "orange"), lty = c(2, 1))
+
+
+```
+```{r, include=FALSE}
 # Print the results
 cat("Desired Power:", power, "\n")
 cat("Target Sample Size:", target_sample_size, "\n")
@@ -97,10 +101,71 @@ cat("Target Treatment Effect Size:", target_effect_size, "\n")
 
 ```
 
-According to the analysis, in order to uphold a power level of 0.8, the treatment effect should be 20% with a sample size of 400
+As demonstrated in the graph above, a smaller effect size typically requires a larger sample size to achieve the same level of statistical power. Conversely, a larger effect size can be detected with a smaller sample size. According to the analysis, in order to ensure a high probability (80%) of detecting a treatment effect of 20% (In this case, a treatment effect of 20% suggests that the study is designed to detect a 20% difference between groups, which could be a treatment group and a control group), a sample size of 400 is recommended for the statistical test being conducted. 
 
 
+## To simulate a power analysis based on data dispersion 
+
+The presented code and plot result from simulating different levels of dispersion (standard deviation) ranging from 0.05 to 2, with a 5% incremental increase. The goal is to maintain a consistent power level of 0.8. In this simulation, we have assumed an Average Treatment Effect (ATE) of 20%, as suggested in a prior simulation. This demonstrates the increasing required sample size as the standard deviation dispersion becomes higher.
 
 ```{r}
 
+# Install and load the necessary library
+
+# Set parameters
+alpha <- 0.05           # Significance level
+power <- 0.8            # Desired power
+mean1 <- 0.5            # Mean of group 1(control)
+mean2 <- 0.7           # Mean of group 2(humor)
+std_devs <- seq(0.05, 2, by = 0.05)  # Range of standard deviations to explore
+
+# Initialize variables
+target_sample_size <- NA
+target_std_dev <- NA
+
+# Function to calculate power for a given standard deviation and sample size
+calculate_power <- function(std_dev, sample_size) {
+  d <- (mean2 - mean1) / std_dev  # Cohen's d effect size
+  pwr.t.test(d = d, n = sample_size, sig.level = alpha, type = "two.sample")$power
+}
+
+# Iterate through standard deviations and find the combination that achieves the desired power
+for (std_dev in std_devs) {
+  # Use a range of sample sizes for exploration
+  for (sample_size in seq(10, 500, by = 10)) {
+    current_power <- calculate_power(std_dev, sample_size)
+    
+    if (current_power >= power) {
+      target_sample_size <- sample_size
+      target_std_dev <- std_dev
+      break
+    }
+  }
+  
+  if (!is.na(target_sample_size)) {
+    break
+  }
+}
+# Function to calculate sample size for a given standard deviation
+calculate_sample_size <- function(std_dev, alpha, power) {
+  d <- (mean2 - mean1) / std_dev  # Cohen's d effect size
+  pwr.t.test(d = d, sig.level = alpha, power = power, type = "two.sample")$n
+}
+
+# Calculate sample sizes for each standard deviation
+sample_sizes <- sapply(std_devs, calculate_sample_size, alpha = alpha, power = power)
+
+# Plot the results
+plot(sample_sizes, std_devs, type = "l", col = "blue",
+     xlab = "Sample Size", ylab = "Standard Deviations",
+     main = "Power Analysis based on Standard Deviation")
+
+# Add a horizontal line for the desired power
+abline(v = 400, col = "orange", lty = 2)
+
+# Add legend
+legend("topright", legend = c("Target Sample Size"), 
+       col = c("orange"), lty = c(2, 1))
+
 ```
+Standard deviation is a measure of the spread or dispersion of data. A larger standard deviation suggests more variability in the data. To increase the chances of detecting a true effect in the presence of higher variability, a larger sample size is needed. This is because a larger sample size provides more information and helps to better estimate the underlying population parameters. Therefore, as the  standard deviation (dispersion) becomes higher, it becomes more challenging to detect smaller effects, and a larger sample size is required to achieve the desired level of statistical power.
