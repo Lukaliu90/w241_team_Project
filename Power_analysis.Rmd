@@ -101,6 +101,7 @@ cat("Target Treatment Effect Size:", target_effect_size, "\n")
 
 ```
 
+### Summary on power analysis based on treatment effect 
 As demonstrated in the graph above, a smaller effect size typically requires a larger sample size to achieve the same level of statistical power. Conversely, a larger effect size can be detected with a smaller sample size. According to the analysis, in order to ensure a high probability (80%) of detecting a treatment effect of 20% (In this case, a treatment effect of 20% suggests that the study is designed to detect a 20% difference between groups, which could be a treatment group and a control group), a sample size of 400 is recommended for the statistical test being conducted. 
 
 
@@ -168,4 +169,6 @@ legend("topright", legend = c("Target Sample Size"),
        col = c("orange"), lty = c(2, 1))
 
 ```
+
+### Summary on power analysis based on data dispersion 
 Standard deviation is a measure of the spread or dispersion of data. A larger standard deviation suggests more variability in the data. To increase the chances of detecting a true effect in the presence of higher variability, a larger sample size is needed. This is because a larger sample size provides more information and helps to better estimate the underlying population parameters. Therefore, as the  standard deviation (dispersion) becomes higher, it becomes more challenging to detect smaller effects, and a larger sample size is required to achieve the desired level of statistical power.
