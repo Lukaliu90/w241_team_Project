@@ -1,0 +1,48 @@
+---
+title: "Does Humor Impact  Dating Success?"
+Team member: "Brian Xiao, Erin Reed, KT Norton, Luka Liu and Quazi Fairooz"
+date: "12/11/2023"
+output: 
+  pdf_document: 
+    number_sections: true
+---
+
+```{r package loads, include=FALSE, warning=FALSE}
+# install.packages("pwr") need to install if you don't have it yet
+library(data.table)
+library(sandwich)
+library(lmtest)
+
+library(ggplot2)
+library(knitr)
+```
+
+# Introducation
+
+This experiment investigates the impact of introducing a humorous personality into dating app profiles on user engagement. The study involves creating ten fake profiles with identical photos but varying personality descriptions—five with a neutral tone and five with a highly humorous tone. The profiles are evenly distributed between a control group (neutral) and a treatment group (humorous). The study focuses on three primary metrics: the number of likes, matches, and comments received by the profiles. The experiment is conducted on the Hinge dating app in New York and San Francisco.
+
+The experiment utilizes the paid version of Hinge (Hinge X) for enhanced visibility and collects data over a month week period (from mid-Oct to mid-Nov, 2023). Daily random swiping activity is conducted for both control and treatment groups to keep profiles active and increase interaction. Measurement involves tracking daily metrics for likes, matches, and comments in shared spreadsheets. The analysis considers potential matches based on mutual likes to maintain consistency in assessing engagement metrics.
+
+We aim to examine whether profiles featuring a humorous and captivating personality description will demonstrate comparable levels of likes, comments on prompts, and overall engagement to profiles characterized by a neutral personality description, thus testing our null hypothesis.
+
+# Data Cleaning
+The following data captures the three major metrics such as swipes, likes, matches, and comments for different profiles on specific dates, categorized into control and treatment groups. The data consist of  information related to user profiles on a dating app. Here is a summary of the data columns:
+
+- Owner: The team member who owns the profile.
+- Profile_Name: The name associated with the profile.
+- City: The city where the profile is located.
+- Treat: Indicates whether the profile is in the control group or the treatment group.
+- Treat_binary: Logical condition into binary values (0 for "Control" and 1 for "Treatment").
+- Date: The date of the recorded data.
+- Swipes: The number of times the profile was swiped.we carry out a daily random allocation of 10 swipes in the profiles, both in the control and treatment groups. This measure serves a dual purpose: first, it keeps our profiles actively participating in the app, and second, it facilitates interaction with other profiles, increasing the visibility of our profiles to other users. 
+- Likes: The number of likes received by the profile.
+- Matches: The number of matches made by the profile.
+- Comments: The number of comments received on the profile. The number of comments, that responded to the prompt.
+
+```{r read hinge data}
+d<- fread("/home/rstudio/Final_project/data/W241_Hinge_Data.csv")
+setnames(d, "Profile Name", "Profile_Name")
+setnames(d, "Control vs Treatment", "Treat")
+d[, Treat_binary := as.integer(Treat == "Treatment")]
+head(d)
+```
