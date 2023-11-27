@@ -1,0 +1,123 @@
+---
+title: "Final Project Variances"
+author: "Quazi, for w241"
+output: github_document
+---
+
+```{r}
+library(data.table)
+library(magrittr)
+library(ggplot2)
+library(lmtest)
+library(stargazer)
+library(sandwich)
+
+```
+
+```{r}
+d <- data.table::fread(
+  input = "W241_Hinge_Data.csv")
+d[, Likes := as.double(Likes)]
+d[, Matches := as.double(Matches)]
+d[, Comments := as.double(Comments)]
+d[, Date := as.Date(Date, format = "%m/%d")]
+```
+
+```{r}
+d <- na.omit(d)
+```
+
+```{r, treatment ols regression, include=TRUE}
+d$log1 <- d[, `Control vs Treatment` == "Treatment"]
+d$treatment <- as.numeric(d$log1)
+
+tc_match_var <- d[,var(Matches), by = `Control vs Treatment`]
+tc_like_var <- d[, var(Likes), by = `Control vs Treatment`]
+tc_comments_var <- d[, var(Comments), by = `Control vs Treatment`]
+
+
+```
+
+```{r, location ols regression, include=TRUE}
+d$log2 <- d[, City == "New York"]
+d$ny <- as.numeric(d$log2)
+
+city_like_var <-  d[, var(Likes), by = City]
+city_comment_var <-  d[, var(Comments), by = City]
+city_match_var <-  d[, var(Matches), by = City]
+  
+d$log3 <- d[, City != "New York"]
+d$sf <- as.numeric(d$log3)
+
+```
+
+```{r, owner ols regression, include=TRUE}
+d$log4 <- d[, Owner == "Brian"]
+d$Br <- as.numeric(d$log4)
+
+
+d$log5 <- d[, Owner == "Erin Smith"]
+d$Er <- as.numeric(d$log5)
+
+d$log6 <- d[, Owner == "KT"]
+d$KT <- as.numeric(d$log6)
+
+d$log7 <- d[, Owner == "Luka"]
+d$Lu <- as.numeric(d$log7)
+
+d$log8 <- d[, Owner == "Quazi"]
+d$Qu <- as.numeric(d$log8)
+
+owner_like_var <-  d[, var(Likes), by = Owner]
+owner_comment_var <-  d[, var(Comments), by = Owner]
+owner_match_var <-  d[, var(Matches), by = Owner]
+
+
+```
+
+```{r, humor type ols regression, include=TRUE}
+#d$log9 <- d[, Owner != "KT"]
+#d$ai <- as.numeric(d$log9)
+
+dai <- d[Owner != "KT"]
+humor_like_var <- dai[, var(Likes)]
+humor_comment_var <-  dai[, var(Comments)]
+humor_match_var <- dai[, var(Matches)]
+
+
+```
+
+```{r}
+dbr <- d[Owner == "Brian"]
+ggplot(dbr, aes(x = Date, y = Likes, colors = Date)) +
+  geom_line(color = "blue", size = 1) +
+  labs(title = "Likes over Time (Brian)", x = "Date", y = "Likes")
+```
+
+```{r}
+der <- d[Owner == "Erin Smith"]
+ggplot(der, aes(x = Date, y = Likes, colors = Date)) +
+  geom_line(color = "blue", size = 1) +
+  labs(title = "Likes over Time (Erin)", x = "Date", y = "Likes")
+```
+
+```{r}
+dkt <- d[Owner == "KT"]
+ggplot(dkt, aes(x = Date, y = Likes, colors = Date)) +
+  geom_line(color = "blue", size = 1) +
+  labs(title = "Likes over Time (KT)", x = "Date", y = "Likes")
+```
+
+```{r}
+dlu <- d[Owner == "Luka"]
+ggplot(dlu, aes(x = Date, y = Likes, colors = Date)) +
+  geom_line(color = "blue", size = 1) +
+  labs(title = "Likes over Time (Luka)", x = "Date", y = "Likes")
+```
+
+```{r}
+dqu <- d[Owner == "Quazi"]
+ggplot(dqu, aes(x = Date, y = Likes, colors = Date)) +
+  geom_line(color = "blue", size = 1) +
+  labs(title = "Likes over Time (Erin)", x = "Date", y = "Likes")
+```
