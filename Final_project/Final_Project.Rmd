@@ -53,7 +53,7 @@ setnames(d, "Control vs Treatment", "Treat")
 d[, Treat_binary := as.integer(Treat == "Treatment")]
 head(d)
 ```
-#Randomization Check
+# Randomization Check
 A randomization check was performed to evaluate whether our treatment and control groups make up representative samples. To perform this check two regression models were developed. The first model: null_mod is the simplest and captures the intercept. The second model: full_mod is more complex and includes profile characteristic variables such as: Who created the profile (Owner), The profile's name (Profile), The location -- San Francisco or New York -- the profile is active (City), The day the sample was collected (Day), and the number of swipes taken on the profile (Swipes).
 
 ```{r}
