@@ -15,6 +15,7 @@ library(lmtest)
 
 library(ggplot2)
 library(knitr)
+library(stargazer)
 ```
 
 # Introducation
@@ -38,11 +39,41 @@ The following data captures the three major metrics such as swipes, likes, match
 - Likes: The number of likes received by the profile.
 - Matches: The number of matches made by the profile.
 - Comments: The number of comments received on the profile. The number of comments, that responded to the prompt.
+- OwnerNum: Owner variable transformed into an integer variable
+- ProfileNum: Profile Name variable transformed into an integer
+- CityNum: City variable transformed into an integer
+- Day: Date variable transformed into an integer based on the day number in the experiment. Starting from one.
+
+Records with missing values were omitted from the data.
 
 ```{r read hinge data}
-d<- fread("/home/rstudio/Final_project/data/W241_Hinge_Data.csv")
+d<- na.omit(fread("/home/rstudio/Final_project/data/W241_Hinge_Data_v2.csv"))
 setnames(d, "Profile Name", "Profile_Name")
 setnames(d, "Control vs Treatment", "Treat")
 d[, Treat_binary := as.integer(Treat == "Treatment")]
 head(d)
+```
+#Randomization Check
+A randomization check was performed to evaluate whether our treatment and control groups make up representative samples. To perform this check two regression models were developed. The first model: null_mod is the simplest and captures the intercept. The second model: full_mod is more complex and includes profile characteristic variables such as: Who created the profile (Owner), The profile's name (Profile), The location -- San Francisco or New York -- the profile is active (City), The day the sample was collected (Day), and the number of swipes taken on the profile (Swipes).
+
+```{r}
+null_mod <- d[ , lm(Treat_binary ~ 1)]
+
+full_mod <- d[ , lm(Treat_binary ~ 1 + OwnerNum + ProfileNum + City + ExpDay + Swipes)]
+```
+
+The first simple model illustrates a 0.502 intercept to support the assumption that both treatment and control groups make up representative samples. However, the more complex model with five covariates captures a small pattern. The City variable has a statistically significant correlation with treatment outcomes. This suggests that different profile locations (San Francisco or New York) contribute to sample differences between the treatment group and the control group.
+
+```{r warning=FALSE}
+stargazer(null_mod, full_mod, 
+          type = "text",
+         covariate.labels = c("Owner", "Profile", "City - San Francisco", "Day", "Swipes", "Intercept")
+          )
+```
+However, while the City variable is statistical significant the impact seems impractically significant at 0.131. 
+To further illustrate the minimal impact the City variable has on treatment assignment, we've run an F-test between our two models (null mod, full mod). As suspected, while City location is statistically significant, the difference does not result in material differences in model performance. While variance is higher with our simple model, it still generates the same outcomes as the complex model for 97% of samples.
+
+```{r}
+anova_mod <- anova(full_mod, null_mod, test = 'F')
+anova_mod
 ```
