@@ -9,6 +9,7 @@ output:
 
 ```{r package loads, include=FALSE, warning=FALSE}
 # install.packages("pwr") need to install if you don't have it yet
+library(pwr)
 library(data.table)
 library(sandwich)
 library(lmtest)
@@ -267,7 +268,7 @@ The following data captures the three major metrics such as swipes, likes, match
 Records with missing values were omitted from the data.
 
 ```{r read hinge data}
-d<- na.omit(fread("/home/rstudio/Final_project/data/W241_Hinge_Data_v2.csv"))
+d<- na.omit(fread("/home/rstudio/w241_team_Project/Final_project/data/W241_Hinge_Data_v2.csv"))
 setnames(d, "Profile Name", "Profile_Name")
 setnames(d, "Control vs Treatment", "Treat")
 d[, Treat_binary := as.integer(Treat == "Treatment")]
@@ -297,3 +298,73 @@ To further illustrate the minimal impact the City variable has on treatment assi
 anova_mod <- anova(full_mod, null_mod, test = 'F')
 anova_mod
 ```
+# Experimentation
+
+In this section, we delve deeper into the analysis of our experiment, aiming to elucidate the impact of incorporating a humorous personality into dating app profiles while accounting for various control variables. Our primary objective remains consistent: to assess the effect of the treatment variable, denoting the presence of a highly humorous and intriguing personality description within the profile, on user engagement metrics, specifically, the number of likes and matches.
+
+## Simple Causal Experiment
+```{r warning=FALSE}
+simple_match_model <- d[ , lm(Treat_binary ~ Matches)]
+simple_like_model <- d[ , lm(Treat_binary ~ Likes)]
+
+
+robust_match_model <- coeftest(simple_match_model, 
+                               vcov = vcovHC(simple_match_model, type = "HC3"))
+robust_like_model <- coeftest(simple_like_model, 
+                              vcov = vcovHC(simple_like_model, type = "HC3"))
+
+stargazer(robust_match_model, robust_like_model, 
+          type = "text", header=FALSE)
+```
+### Model 1: Humor ~ Matches
+
+Model 1 examines the impact of our treatment variable on the number of matches. For each additional match, the likelihood of being in the treatment group (having a humorous personality description) increases by approximately 0.076 units. The coefficient for matches is highly statistically significant (p < 0.01), indicating a strong and robust relationship between the number of matches and being in the treatment group. 
+
+### Model 2: Humor ~ Likes
+
+Model 2 examines the impact of our treatment variable on the number of likes. For each additional like received, there is a marginal increase (0.017 units) in the likelihood of being in the treatment group (having a humorous personality description).
+The coefficient for Likes is statistically significant at the 10% level (p < 0.1), indicating a weaker relationship between the number of likes and being in the treatment group compared to Model 1.
+
+In summary, Model 1 demonstrates a robust and highly significant relationship between the number of matches and being in the treatment group, with a substantial increase in the likelihood of having a humorous personality description for each additional match. Model 2, while statistically significant, indicates a weaker relationship between the number of likes and being in the treatment group, with a smaller increase in likelihood per additional like compared to matches. These results emphasize the importance of matches in influencing the likelihood of a humorous personality description in dating profiles.
+
+## Causal Experiments with More Controls
+Building upon the foundation laid in the earlier section, where we examined the simple relationships between the treatment variable and our outcome variables, Likes, Matches, and Comments, we recognize the need to consider a broader context. While those initial analyses provided valuable insights into the direct effects of the humorous personality description, they may not account for other factors that could influence user engagement on dating apps.
+
+To address this, we embark on a more comprehensive analytical journey by introducing additional control variables into our regression models. By doing so, we aim to control for potential confounding variables that might otherwise obscure the true impact of the treatment variable. These control variables encompass demographic and contextual factors, allowing us to explore how the humorous personality description affects user engagement while holding other relevant factors constant.
+
+```{r warning=FALSE}
+controls_match_model <- d[ , lm(Treat_binary ~ Matches + Swipes+ factor(Owner) + 
+                                  factor(City) + factor(ExpDay))]
+controls_like_model <- d[ , lm(Treat_binary ~ Likes + Swipes+ factor(Owner) + 
+                                 factor(City) + factor(ExpDay))]
+
+robust_controls_match_model <- coeftest(controls_match_model, 
+                              vcov = vcovHC(controls_match_model, type = "HC3"))
+robust_controls_like_model <- coeftest(controls_like_model, 
+                              vcov = vcovHC(controls_like_model, type = "HC3"))
+
+stargazer(robust_controls_match_model, robust_controls_like_model, 
+          omit = "factor(ExpDay)", type = "text", header=FALSE)
+```
+
+### Model 1: Humor ~ Matches + Controls
+Model 1 examines the impact of our treatment variable on the number of matches to include additional control variables (profile owner, profile location, and day of experiment).
+The coefficient for Matches is 0.095, and it is highly statistically significant (p < 0.01). This indicates that for each additional match, the likelihood of being in the treatment group (having a humorous personality description) increases significantly by approximately 0.094 units, after controlling for other variables.
+The coefficient for Swipes is not statistically significant (p > 0.1), suggesting that the number of swipes does not have a significant effect on being in the treatment group.
+The coefficients for the different levels of the Owner variable (e.g., Erin Smith, KT, Luka, Quazi) represent how each owner's profile relates to being in the treatment group compared to a reference category. None of these coefficients are statistically significant at conventional levels (p > 0.1), indicating that the owner's identity does not have a significant effect on being in the treatment group.
+The coefficient for the San Francisco city dummy variable is 0.127, and it is marginally statistically significant at the 10% level (p < 0.1). This suggests that being located in San Francisco may have a slight positive impact on being in the treatment group, although the significance level is not very strong.
+The coefficients for the different days (ExpDay 2 to 45) represent how each day of the experiment relates to being in the treatment group compared to a reference category. Most of these coefficients are not statistically significant (p > 0.1), suggesting that specific days do not have a significant effect on being in the treatment group.
+
+
+### Model 1: Humor ~ Likes + Controls
+Model 2 examines the impact of our treatment variable on the number of likes to include additional control variables (profile owner, profile location, and day of experiment).
+The coefficient for Likes is 0.033, and it is statistically significant at the 5% level (p < 0.05). This indicates that for each additional like received, there is a statistically significant increase of approximately 0.033 units in the likelihood of being in the treatment group (having a humorous personality description), after controlling for other variables.
+Similar to Model 1, the coefficients for swipes and the different levels of the Owner variable do not reach statistical significance (p > 0.1), suggesting that both swipes and the owner's identity does not significantly affect being in the treatment group.
+The coefficient for the San Francisco city dummy variable is 0.140, and it is statistically significant at the 5% level (p < 0.05). This indicates that being located in San Francisco has a statistically significant positive impact on being in the treatment group.
+
+In both models, Matches (in Model 1) and Likes (in Model 2) have a statistically significant impact on being in the treatment group, with Matches being highly significant and Likes being significant at the 5% level. This suggests that both the number of matches and the number of likes influence the likelihood of having a humorous personality description in dating app profiles.
+
+Regarding the control variables Owner and City, none of the specific owner identities significantly affect being in the treatment group in either model. However, the city variable shows some significance, with being located in San Francisco positively associated with being in the treatment group.
+
+## Experimentation Results
+Overall, these results confirm that having a humorous personality description significantly influences user engagement on dating apps, particularly through an increase in both matches and likes. The control variables in these models do not exhibit significant effects on being in the treatment group, reinforcing the importance of personality traits expressed through text in shaping user interactions and experiences on dating apps.
