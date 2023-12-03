@@ -356,7 +356,7 @@ The coefficient for the San Francisco city dummy variable is 0.127, and it is ma
 The coefficients for the different days (ExpDay 2 to 45) represent how each day of the experiment relates to being in the treatment group compared to a reference category. Most of these coefficients are not statistically significant (p > 0.1), suggesting that specific days do not have a significant effect on being in the treatment group.
 
 
-### Model 1: Humor ~ Likes + Controls
+### Model 2: Humor ~ Likes + Controls
 Model 2 examines the impact of our treatment variable on the number of likes to include additional control variables (profile owner, profile location, and day of experiment).
 The coefficient for Likes is 0.033, and it is statistically significant at the 5% level (p < 0.05). This indicates that for each additional like received, there is a statistically significant increase of approximately 0.033 units in the likelihood of being in the treatment group (having a humorous personality description), after controlling for other variables.
 Similar to Model 1, the coefficients for swipes and the different levels of the Owner variable do not reach statistical significance (p > 0.1), suggesting that both swipes and the owner's identity does not significantly affect being in the treatment group.
