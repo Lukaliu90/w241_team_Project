@@ -58,7 +58,7 @@ The provided dataset records essential metrics—swipes, likes, matches, and com
 We will employ two main tables for our data analysis. The primary focus will be on the 'exp_d' table for evaluating the metric of matches, which is our key criterion. In this table, we expand 10 daily swipes into each row, creating one sample per row. This expansion is justified by the fact that matches can only occur when swipes take place. Consequently, for the evaluation of the likes metric, we will have a total of 2752 samples.
 
 
-Regarding the metrics of swipes and matches, given that they are not strictly contingent on individual swipes, individuals using Hinge might express their interest by liking or commenting on the profile descriptions we've created. In this context, our unit of measurement for one sample will be based on the date of our experiment. This spans a timeframe of 36 days, from October 19th to November 14th, yielding a total of 294 samples.
+Regarding the metrics of likes and comments, given that they are not strictly contingent on individual swipes, individuals using Hinge might express their interest by liking or commenting on the profile descriptions we've created. In this context, our unit of measurement for one sample will be based on the date of our experiment. This spans a timeframe of 36 days, from October 19th to November 14th, yielding a total of 294 samples.
 
 
 ```{r read hinge data, include=FALSE}
