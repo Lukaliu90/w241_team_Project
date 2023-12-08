@@ -105,7 +105,7 @@ anova_mod
 ```
 # Experimentation
 
-In this section, we delve deeper into the analysis of our experiment, aiming to elucidate the impact of incorporating a humorous personality into dating app profiles while accounting for various control variables. Our primary objective remains consistent: to assess the effect of the treatment variable, denoting the presence of a highly humorous and intriguing personality description within the profile, on user engagement metrics, specifically, the number of likes and matches.
+In this section, we performed deeper into the analysis of our experiment, aiming to elucidate the impact of incorporating a humorous personality into dating app profiles while accounting for various control variables. Our primary objective remains consistent: to assess the effect of the treatment variable, denoting the presence of a highly humorous and intriguing personality description within the profile, on user engagement metrics, specifically, the number of likes and matches.
 
 Referring to our power analysis simulation we performed in the past, in order to ensure a high probability (80%) of detecting a treatment effect of 20% (In this case, a treatment effect of 20% suggests that the study is designed to detect a 20% difference between groups, which could be a treatment group and a control group), a sample size of 400 is recommended for the statistical test being conducted. 
 
@@ -179,7 +179,7 @@ cat("Target Treatment Effect Size:", target_effect_size, "\n")
 
 ```
 
-## Number of Matches Expriment
+## Number of Matches Expriment - Simple
 
 ```{r likes_t_test, include=TRUE}
 match_d <- exp_d[, c('match',"Treat_binary")]
@@ -196,7 +196,42 @@ robust_mod <- coeftest(mod, vcov = vcovHC(mod, type = "HC3"))
 
 stargazer(mod, type = "text", header=FALSE)
 ```
-The 'Treat_binary' coefficient (0.039) indicates that, on average, there is a 0.039-unit increase in the 'match' variable for a one-unit increase in 'Treat_binary.'The p-value associated with 'Treat_binary' is highly significant (***p<0.01), suggesting that 'Treat_binary' is a significant predictor of 'match.' Since we are exploring whether there is a significant difference between control and treatment groups in matches, the t-test and a simple linear regression produce a very similar result. 
+The 'Treat_binary' coefficient (0.039) indicates that, on average, there is a 0.039-unit increase in the 'match' variable for treatment group, which is 'Treat_binary'= 1. The p-value associated with 'Treat_binary' is highly significant (***p<0.01), suggesting that 'Treat_binary' is a significant predictor of 'match.' Since we are exploring whether there is a significant difference between control and treatment groups in matches, the t-test and a simple linear regression produce a very similar result. 
+
+## Number of Matches Expriment - Comphrehesive 
+
+To further enhance the analysis of the impact of humor on dating app matches, we include additional variables, such as dating app profile, which can capture and account for potential influence on the number of matches, and the city or days of the week. I believe that this helps to isolate the true effect of treat_binary (humor) on matches, reducing extraneous noise and improving the accuracy the estimates. Additionally, including more variables allows you to understand how different factors interact and contribute to the outcome. This creates a more nuanced picture of the relationships between humor and matches, rather than just a single, isolated effect. Lastly, we will be able to reduce the risk of omitted variable bias and obtain more reliable results.
+
+```{r matches_regression_complex, include=TRUE, warning=FALSE}
+mod_1 <- lm(match ~ Treat_binary + CityNum, data=exp_d)
+robust_mod_1 <- coeftest(mod_1, vcov = vcovHC(mod_1, type = "HC3"))
+
+mod_2 <- lm(match ~ Treat_binary + CityNum + factor(ProfileNum), data=exp_d)
+robust_mod_2 <- coeftest(mod_2, vcov = vcovHC(mod_2, type = "HC3"))
+
+mod_3 <- lm(match ~ Treat_binary + CityNum + factor(ProfileNum) + factor(weekday), data=exp_d)
+robust_mod_3 <- coeftest(mod_3, vcov = vcovHC(mod_3, type = "HC3"))
+
+mod_4 <- lm(match ~ Treat_binary + CityNum + factor(ProfileNum) + factor(weekday) + ExpDay_profile, data=exp_d)
+robust_mod_4 <- coeftest(mod_4, vcov = vcovHC(mod_4, type = "HC3"))
+
+stargazer(
+  mod_1,
+  mod_2,
+  mod_3,
+  mod_4,
+          type = "text", header=FALSE)
+
+```
+
+## Macthes Model interpretation
+Model 1: We included city data (limited to San Francisco and New York City) to assess its potential influence on dating app matches. As anticipated, incorporating humor into profiles significantly increased matches, regardless of city location. This aligns with our assumption that individuals in these two major cities would exhibit similar behavior regarding online dating preferences.
+
+Model 2: By incorporating "profile_id" as a categorical variable in our analysis, we were able to demonstrate that all six profiles exhibited statistically significant differences in their average number of matches compared to the control group. This finding provides valuable insights into how individual profile characteristics influence dating app success and highlights the importance of considering individual variability in such research.
+
+Model 3: This model further expands by incorporating the day of the week the user profile was active (coded as a factor with seven levels). Consistent with the previous model, the results reaffirm that incorporating humor significantly increases the number of matches received, and individual profile characteristics remain influential factors in dating app success. However, similar to city location, weekday does not appear to have a statistically significant impact on match count.
+
+Model 4: This model expands upon previous iterations by incorporating "ExpDay_profile," which signifies the duration since a profile's creation. This addition enables us to examine the relationship between the number of days a profile is active on the app (exposure days) and the number of matches received. The negative coefficient (-0.00238) associated with ExpDay_profile reveals that as the exposure days increase, the average number of matches received decreases. This finding suggests the potential presence of a decay effect, where the initial boost experienced by new profiles gradually diminishes over time. Consequently, the importance of profile refresh or update strategies to sustain user engagement and maintain match potential is highlighted.
 
 
 ## Simple Causal Experiment
@@ -317,7 +352,7 @@ Here is a summary of the data columns:
 - City: The city where the profile is located.
 - CityNum:Integer of city, San Francisco = 0, NYC = 1
 - Treat: Indicates whether the profile is in the control group or the treatment group.
-- Treat_binary: Logical condition into binary values (0 for "Control" and 1 for "Treatment").
+- Treat_binary: Logical condition into binary values (0 for "Control" and 1 for "Treatment"). Indicator for the treatment group (humorous profile).
 - Date: The date of the recorded data.
 - Swipes: The number of times the profile was swiped.we carry out a daily random allocation of 10 swipes in the profiles, both in the control and treatment groups. This measure serves a dual purpose: first, it keeps our profiles actively participating in the app, and second, it facilitates interaction with other profiles, increasing the visibility of our profiles to other users. 
 - Likes: The number of likes received by the profile.
