@@ -106,7 +106,7 @@ anova_mod
 
 In this section, we dived deeper into the analysis of our experiment, aiming to elucidate the impact of incorporating a humorous personality into dating app profiles while accounting for various control variables. Our primary objective remains consistent: to assess the effect of the treatment variable, denoting the presence of a highly humorous and intriguing personality description within the profile, on user engagement metrics, specifically, the number of likes and matches.
 
-In regards to our power analysis simulation performed in Section X, in order to ensure a high probability (80%) of detecting a treatment effect of 20% (In this case, a treatment effect of 20% suggests that the study is designed to detect a 20% difference between groups, which could be a treatment group and a control group), a sample size of 400 is recommended for the statistical test being conducted.
+We performed a power analysis simulation before the experiment, in order to ensure a high probability (80%) of detecting a treatment effect of 20%. In this case, a treatment effect of 20% suggests that the study is designed to detect a 20% difference between groups, which could be a treatment group and a control group. A sample size of 400 is recommended for the statistical test being conducted.
 
 ```{r power analysis, include=FALSE}
 
@@ -178,7 +178,9 @@ cat("Target Treatment Effect Size:", target_effect_size, "\n")
 
 ```
 
-** Add commentary on the power analysis above
+This experiment was conducted for 45 days. However, due to unforeseen issues with profiles being removed unexpectedly, we were not able to collect data for all of those days. We were able to get a total of 283 samples in terms of unique profiles collecting data per day. To analyze the number of matches each profile received, we expanded the data for that model so that each sample is actually a single "swipe" or "like" that the profile sent in a day. This means that the outcome variable for each sample is a binary indicator variable indicating whether or not that swipe garnered a match or not. The total number of samples for our match model is 2742.
+
+Analyzing the likes that a profile received is a bit more complicated than that. It is unclear exactly how Hinge decides to show certain profiles to users, so it is impossible to determine the total number of users that actually encoutered our profiles in a given day. Therefore, we will analyze the lkes on a per day sample. That is to say that a single sample represents a single day in our experiment and the outcome variable is the nubmer of likes that a profile received. Thhe total number of samples for our likes model is 283.
 
 ## Number of Matches Experiment - Simple
 
@@ -297,7 +299,14 @@ The "Swipes" coefficient indicates the number of swipes or likes that the profil
 
 Overall, The presence of humor in dating app profiles is associated with an increase in the number of "Likes" and is statistically significant. Other factors such as swipes, specific profile identifiers, and the day of the experiment also influence "Likes." However, the impact of the day of the week and the city of the profile location appears to be less pronounced and often not statistically significant in the presented models.
 
+```{r}
+nrow(d)
+nrow(exp_d)
+```
+
 ## Experimentation Results
+
+
 These results confirm that having a humorous personality description significantly influences user engagement on dating apps, particularly through an increase in both matches and likes. The control variables in these models do not exhibit significant effects on being in the treatment group, reinforcing the importance of personality traits expressed through text in shaping user interactions and experiences on dating apps.
 
 

@@ -14,6 +14,11 @@ head(d)
 
 ```
 
+```{r}
+nrow(d)
+max(d$ExpDay)
+```
+
 
 ```{r}
 write.csv(d, file = "W241_Hinge_Data_v3.csv", row.names = FALSE)
