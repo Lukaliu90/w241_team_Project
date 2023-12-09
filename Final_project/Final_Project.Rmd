@@ -299,15 +299,9 @@ The "Swipes" coefficient indicates the number of swipes or likes that the profil
 
 Overall, The presence of humor in dating app profiles is associated with an increase in the number of "Likes" and is statistically significant. Other factors such as swipes, specific profile identifiers, and the day of the experiment also influence "Likes." However, the impact of the day of the week and the city of the profile location appears to be less pronounced and often not statistically significant in the presented models.
 
-```{r}
-nrow(d)
-nrow(exp_d)
-```
-
 ## Experimentation Results
 
-
-These results confirm that having a humorous personality description significantly influences user engagement on dating apps, particularly through an increase in both matches and likes. The control variables in these models do not exhibit significant effects on being in the treatment group, reinforcing the importance of personality traits expressed through text in shaping user interactions and experiences on dating apps.
+The results from both the matches and likes analysis indicate that having a humorous personality description significantly influences user engagement on dating apps, particularly through an increase in both matches and likes. The control variables in these models do not exhibit significant effects on being in the treatment group, reinforcing the importance of personality traits expressed through text in shaping user interactions and experiences on dating apps.
 
 
 # Appendix
