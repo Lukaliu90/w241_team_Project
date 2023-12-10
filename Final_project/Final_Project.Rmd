@@ -2,6 +2,7 @@
 title: "Does Humor Impact  Dating Success?"
 Team member: "Brian Xiao, Erin Reed, KT Norton, Luka Liu and Quazi Fairooz"
 date: "12/11/2023"
+geometry: margin=1cm
 output: 
   pdf_document: 
     number_sections: true
@@ -201,7 +202,8 @@ plotl4 <- ggplot(dlu, aes(x = Date, y = Likes, colors = Date)) +
 dqu <- d[Owner == "Quazi"]
 plotl5 <- ggplot(dqu, aes(x = Date, y = Likes, colors = Date)) +
   geom_line(color = "blue", size = 5) +
-  labs(title = "Likes over Time (Erin)", x = "Date", y = "Likes")
+  labs(title = "Likes over Time (Quazi)", x = "Date", y = "Likes")
+
 
 stacked_like_plots <- plotl1 / plotl2 /plotl3 / plotl4 / plotl5
 stacked_like_plots
@@ -347,7 +349,7 @@ The 'Treat_binary' coefficient (0.039) indicates that, on average, there is a 0.
 
 To further enhance the analysis of the impact of humor on dating app matches, we include additional variables, such as dating app profile, which can capture and account for potential influence on the number of matches, and the city or days of the week. I believe that this helps to isolate the true effect of treat_binary (humor) on matches, reducing extraneous noise and improving the accuracy the estimates. Additionally, including more variables allows you to understand how different factors interact and contribute to the outcome. This creates a more nuanced picture of the relationships between humor and matches, rather than just a single, isolated effect. Lastly, we will be able to reduce the risk of omitted variable bias and obtain more reliable results.
 
-```{r matches_regression_complex, include=TRUE, warning=FALSE}
+```{r matches_regression_complex, include=TRUE, warning=FALSE, results='asis'}
 mod_1 <- lm(match ~ Treat_binary + CityNum, data=exp_d)
 robust_mod_1 <- coeftest(mod_1, vcov = vcovHC(mod_1, type = "HC3"))
 
@@ -365,7 +367,9 @@ stargazer(
   mod_2,
   mod_3,
   mod_4,
-          type = "text", header=FALSE)
+  type = "latex", header=FALSE, column.sep.width = ".2pt", 
+  title = "Regression Results - Matches",
+  font.size="footnotesize", no.space=TRUE)
 
 ```
 
@@ -392,11 +396,13 @@ We conducted a t-test to compare the mean number of matches between the treatmen
 
 Furthermore, the 95% confidence interval for the difference in means, (-1.2094231 to 0.1107316), encompasses zero. This observation signifies that we do not have sufficient evidence to establish any statistical significance in the comparison of mean matches between the treatment and control groups.
 
-```{r likes_regression, include=TRUE, warning=FALSE}
+```{r likes_regression, include=TRUE, warning=FALSE, results='asis'}
 mod <- lm(Likes ~ Treat_binary, data=d) 
 robust_mod <- coeftest(mod, vcov = vcovHC(mod, type = "HC3"))
 
-stargazer(mod, type = "text", header=FALSE)
+stargazer(mod, type = "latex", header=FALSE,
+          title = "Simple Regression Results - Likes",
+          se = list(sqrt(diag(vcovHC(mod, type = "HC3")))))
 ```
 We conducted a regression analysis to examine the impact of treatment, on the number of 'Likes' received in dating app profiles. The coefficient for the treatment variable is 0.549, indicating that profiles with a humorous personality description (in the treatment group) tend to receive approximately 0.549 more 'Likes' compared to profiles without such descriptions (in the control group). However, this result does not reach statistical significance (p > 0.1), suggesting that the effect of the treatment on 'Likes' is not statistically conclusive.
 
@@ -407,7 +413,7 @@ In summary, while there is a positive association between the treatment and the 
 ## Number of Matches Expriment - Comphrehesive 
 Building upon the foundation laid in the earlier section, where we examined the simple relationships between the treatment variable and our outcome variables, Likes and Matches, we recognize the need to consider a broader context. By doing so, we aim to control for potential confounding variables that might otherwise obscure the true impact of the treatment variable. These control variables encompass demographic and contextual factors, allowing us to explore how the humorous personality description affects user engagement while holding other relevant factors constant.
 
-```{r likes_regression_complex, include=TRUE, warning=FALSE}
+```{r likes_regression_complex, include=TRUE, warning=FALSE, results='asis'}
 mod_1 <- lm(Likes ~ Treat_binary + Swipes, data=d)
 robust_mod_1 <- coeftest(mod_1, vcov = vcovHC(mod_1, type = "HC3"))
 
@@ -431,15 +437,27 @@ stargazer(
   mod_3,
   mod_4,
   mod_5,
-  type = "text", header=FALSE)
+  type = "latex", header=FALSE, column.sep.width = ".2pt", 
+  title = "Regression Results - Likes",
+  font.size="footnotesize", no.space=TRUE,
+  se = list(
+    sqrt(diag(vcovHC(mod_1, type = "HC3"))),
+    sqrt(diag(vcovHC(mod_2, type = "HC3"))),
+    sqrt(diag(vcovHC(mod_3, type = "HC3"))),
+    sqrt(diag(vcovHC(mod_4, type = "HC3"))),
+    sqrt(diag(vcovHC(mod_5, type = "HC3")))
+  ))
 
 ```
 
-The coefficient for our binary treatment variable ranges from 0.549 to 0.602 across the different models, suggesting that profiles with a humorous description tend to receive more "Likes" compared to profiles without humor. The p-values associated with these coefficients are all below 0.05, indicating statistical significance. Thus, the presence of humor in the profile has a statistically significant positive impact on the number of "Likes."
+The coefficient for our binary treatment variable varies between 0.549 and 0.598 across different models, suggesting that profiles featuring a humorous description tend to attract more "Likes" compared to profiles without humor. However, it's worth noting that not all p-values across the models consistently reach statistical significance, with only 3 out of 5 falling below the 0.05 threshold.
 
-The "Swipes" coefficient indicates the number of swipes or likes that the profile gave out in a single day. The coefficients for "Swipes" are positive and range from 0.023 to 0.048 in different models. These positive coefficients suggest that profiles sending more swipes/likes tend to receive more "Likes," and this relationship is statistically significant (p < 0.05) in some models.
+The profile owner variable indicates the individual who created the profile (i.e., the group member responsible for the user's creation). Notably, profiles owned by Quazi consistently exhibit positive coefficients ranging from 3.290 to 3.665 across models. This implies that profiles created by Quazi have a highly statistically significant impact on the number of "Likes" received in these models at the 0.01 significance level.
 
-Overall, The presence of humor in dating app profiles is associated with an increase in the number of "Likes" and is statistically significant. Other factors such as swipes, specific profile identifiers, and the day of the experiment also influence "Likes." However, the impact of the day of the week and the city of the profile location appears to be less pronounced and often not statistically significant in the presented models.
+Time also emerges as a significant factor in this experiment. In models that consider the day of the week, Thursday demonstrates a coefficient between 0.932 and 0.984, achieving statistical significance at the 0.05 level. Furthermore, the day of the experiment itself proves to be highly significant at the 0.01 level, with a coefficient of -0.057. This suggests a negative effect on the number of 'Likes' a profile receives on later days during the experiment.
+
+In summary, the inclusion of humor in dating app profiles is linked to an increase in the number of "Likes" and is statistically significant. Additional factors, such as specific profile identifiers and the timing of the experiment, including the day of the week and the day of the experiment, also exert influence on "Likes." However, the impact of factors like the day of the week, the user's city location, and the number of daily swipes often appears less pronounced and frequently fails to reach statistical significance in the presented models.
+
 
 ## Experimentation Results
 
