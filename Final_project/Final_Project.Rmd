@@ -17,6 +17,9 @@ library(lmtest)
 library(ggplot2)
 library(knitr)
 library(stargazer)
+library(dplyr)
+library(lubridate)
+library(tidyr)
 ```
 
 # Abstract
@@ -442,6 +445,147 @@ Overall, The presence of humor in dating app profiles is associated with an incr
 
 The results from both the matches and likes analysis indicate that having a humorous personality description significantly influences user engagement on dating apps, particularly through an increase in both matches and likes. The control variables in these models do not exhibit significant effects on being in the treatment group, reinforcing the importance of personality traits expressed through text in shaping user interactions and experiences on dating apps.
 
+
+
+## Heterogeneous Treatment Effects (HTE)
+
+There are three groups in particular for our experiment to break down: treatment effects by Owner, City, and Time.  Owner will measure if there is any disparate impacts by the different team members, essentially looking for if any owners are more humorous than others.  City will measure if the selection of New York as the treatment or control had any impact on the results.  Time will measure any impact by weeks since opening the account (there is an internet theory that Hinge will boost the likes you receive when first opening an account).
+
+```{r HTE_preprocessing, include=TRUE, warning=FALSE}
+
+#Create week since start
+starting_dates <- d %>%
+  group_by(Profile_Name, City, Treat) %>%
+  summarise(start_date = min(Date)) %>%
+  ungroup()
+
+d <- d %>%
+  left_join(starting_dates, by = c("Profile_Name", "City", "Treat"))
+
+d <- d %>%
+  mutate(
+    weeks_since_start = ceiling((as.numeric(Date - start_date) + 6) / 7)
+  )
+
+# Convert dataset to a wide format
+# Reformat data into a wide format
+final_dataset <- d %>%
+  # Create separate datasets for likes and matches
+  mutate(likes_control = ifelse(Treat == "Control", Likes, NA),
+         likes_treat = ifelse(Treat == "Treatment", Likes, NA),
+         matches_control = ifelse(Treat == "Control", Matches, NA),
+         matches_treat = ifelse(Treat == "Treatment", Matches, NA),
+         City_Control = ifelse(Treat == "Control", City, NA),
+         City_Treat = ifelse(Treat == "Treatment", City, NA)) %>%
+  # Group by Owner, Profile_Name, Date, and weeks_since_start
+  group_by(Owner, Profile_Name, Date, weeks_since_start) %>%
+  # Summarize to collapse into single rows
+  summarise(likes_control = sum(likes_control, na.rm = TRUE),
+            likes_treat = sum(likes_treat, na.rm = TRUE),
+            matches_control = sum(matches_control, na.rm = TRUE),
+            matches_treat = sum(matches_treat, na.rm = TRUE),
+            City_Control = first(na.omit(City_Control)),
+            City_Treat = first(na.omit(City_Treat))) %>%
+  ungroup()
+
+# calculate TE for each row
+final_dataset <- final_dataset %>%
+  mutate(treatment_effect_likes = likes_treat - likes_control,
+         treatment_effect_matches = matches_treat - matches_control)
+
+```
+
+# HTE by Owner
+```{r HTE_owner_average, include=TRUE, warning=FALSE}
+
+# average by owner
+average_treatment_effect <- final_dataset %>%
+  group_by(Owner) %>%
+  summarise(average_effect_likes = mean(treatment_effect_likes, na.rm = TRUE),
+            average_effect_matches = mean(treatment_effect_matches, na.rm = TRUE)) %>%
+  ungroup()
+
+
+average_treatment_effect
+
+```
+From a simple average treatment effect by owner, there seems to be significant discrepancy between owners.  For likes, Quazi's treatment had a negative impact, while Erin's treatment had the highest impact.  Interestingly, Quazi's treatment had the highest impact on matches, indicating that perhaps there is some complexity to Quazi's humor.
+
+```{r HTE_owner_anova, include=TRUE, warning=FALSE}
+
+# average by owner
+# For likes
+anova_likes <- aov(treatment_effect_likes ~ Owner, data = final_dataset)
+summary(anova_likes)
+
+# For matches
+anova_matches <- aov(treatment_effect_matches ~ Owner, data = final_dataset)
+summary(anova_matches)
+
+```
+Performing an ANOVA on likes and matches, we can see that the ANOVA test for likes is almost statistically significant with a p-value of 0.0783.  The p-value suggests that there are differences in the average number of likes between different owners, but these differences are not statistically significant at the 5% level (though they are close). It implies that while there is some variation in likes attributable to the different owners, this variation might be due to chance.
+
+The ANOVA test for matches is not statistically significant at all with a p-value of 0.552, indicating any differences are probably due to chance.
+
+# HTE By City
+We next want to investigate whether the city had a significant impact on treatments. While the last test was interesting to measure which owner was the most humorous, this is the most important test for our team.  We made a significant assumption that city selection would not impact the likes or matches received, so now we must confirm this.
+
+```{r HTE_city_avg, include=TRUE, warning=FALSE}
+
+average_treatment_effect_city <- final_dataset %>%
+  group_by(City_Control, City_Treat) %>%
+  summarise(average_effect_likes = mean(treatment_effect_likes, na.rm = TRUE),
+            average_effect_matches = mean(treatment_effect_matches, na.rm = TRUE)) %>%
+  ungroup()
+
+average_treatment_effect_city
+
+```
+
+We can immediately see that selecting New York as the treatment city provided approximately 0.6 more likes per day than picking San Francisco as a treatment.  There seems to be very little variation in the average effect on matches.  There is an additional row here which indicates a data defect.  It seems there was a row that that did not have the control city marked.  
+
+Let's see if the treatment city is statistically significant.
+
+```{r HTE_owner_t, include=TRUE, warning=FALSE}
+# T-Test for Likes
+t_test_likes_city <- t.test(treatment_effect_likes ~ interaction(City_Control, City_Treat), data = final_dataset)
+t_test_likes_city
+
+# T-Test for Matches
+t_test_matches_city <- t.test(treatment_effect_matches ~ interaction(City_Control, City_Treat), data = final_dataset)
+t_test_matches_city
+
+```
+
+The t-test for likes has a p-value of 0.11 which is not statistically significant.  Similiar to the owner analysis, it implies that while there is some variation in likes attributable to the treatment city, this variation might be due to chance.  As expected for our matches t-test, there is very a high p-value of 0.96, indicating that the variation is most likely due to chance.
+
+# HTE by Weeks
+When creating our hinge accounts, we noticed that the number of likes was very high at first and then tapered off.  We want to confirm if this has any impact on our treatment.
+
+```{r HTE_weeks_average, include=TRUE, warning=FALSE}
+#HTE by weeks
+average_treatment_effect_week <- final_dataset %>%
+  group_by(weeks_since_start) %>%
+  summarise(average_effect_likes = mean(treatment_effect_likes, na.rm = TRUE),
+            average_effect_matches = mean(treatment_effect_matches, na.rm = TRUE)) %>%
+  ungroup()
+
+average_treatment_effect_week
+
+```
+Interestingly, we can see the average effect of likes does steadily decline but then rises back up, creating a U-shape.  The matches behavior seems to not have any discerning pattern.
+
+```{r HTE_weeks_anova, include=TRUE, warning=FALSE}
+# ANOVA for Likes
+anova_likes_week <- aov(treatment_effect_likes ~ weeks_since_start, data = final_dataset)
+summary(anova_likes_week)
+
+# ANOVA for Matches
+anova_matches_week <- aov(treatment_effect_matches ~ weeks_since_start, data = final_dataset)
+summary(anova_matches_week)
+```
+
+Performing an anova shows a p-value of .0994 for likes and a high p-value of .519 for matches.  Again similiar to the other HTE's, it implies that while there is some variation in likes attributable to the week since the account opened, this variation might be due to chance
 
 # Appendix
 Here is a summary of the data columns:
