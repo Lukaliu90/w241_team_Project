@@ -21,6 +21,7 @@ library(stargazer)
 library(dplyr)
 library(lubridate)
 library(tidyr)
+library(cowplot)
 ```
 
 # Abstract
@@ -205,7 +206,7 @@ plotl5 <- ggplot(dqu, aes(x = Date, y = Likes, colors = Date)) +
   labs(title = "Likes over Time (Quazi)", x = "Date", y = "Likes")
 
 
-stacked_like_plots <- plotl1 / plotl2 /plotl3 / plotl4 / plotl5
+stacked_like_plots <- plot_grid(plotl1, plotl2, plotl3, plotl4, plotl5, ncol = 1)
 stacked_like_plots
 ```
 
@@ -235,7 +236,7 @@ plotm5 <- ggplot(dqu, aes(x = Date, y = Matches, colors = Date)) +
   geom_line(color = "blue", size = 5) +
   labs(title = "Likes over Time (Erin)", x = "Date", y = "Matches")
 
-stacked_match_plots <- plotm1 / plotm2 /plotm3 / plotm4 / plotm5
+stacked_match_plots <- plot_grid(plotm1, plotm2,plotm3,plotm4,plotm5, ncol = 1)
 stacked_match_plots
 ```
 
@@ -341,7 +342,9 @@ Using a t-test, we compared the mean matches between two groups. The t-value is 
 mod <- lm(match ~ Treat_binary, data=match_d) 
 robust_mod <- coeftest(mod, vcov = vcovHC(mod, type = "HC3"))
 
-stargazer(mod, type = "text", header=FALSE)
+stargazer(mod, type = "text", header=FALSE,
+          title = "Simple Regression Resutls - Matches",
+          se = list(sqrt(diag(vcovHC(mod, type = "HC3")))))
 ```
 The 'Treat_binary' coefficient (0.039) indicates that, on average, there is a 0.039-unit increase in the 'match' variable for treatment group, which is 'Treat_binary'= 1. The p-value associated with 'Treat_binary' is highly significant (***p<0.01), suggesting that 'Treat_binary' is a significant predictor of 'match.' Since we are exploring whether there is a significant difference between control and treatment groups in matches, the t-test and a simple linear regression produce a very similar result. 
 
@@ -369,7 +372,13 @@ stargazer(
   mod_4,
   type = "latex", header=FALSE, column.sep.width = ".2pt", 
   title = "Regression Results - Matches",
-  font.size="footnotesize", no.space=TRUE)
+  font.size="footnotesize", no.space=TRUE,
+  se = list(
+    sqrt(diag(vcovHC(mod_1, type = "HC3"))),
+    sqrt(diag(vcovHC(mod_2, type = "HC3"))),
+    sqrt(diag(vcovHC(mod_3, type = "HC3"))),
+    sqrt(diag(vcovHC(mod_4, type = "HC3")))
+  ))
 
 ```
 
