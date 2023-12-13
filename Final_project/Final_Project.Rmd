@@ -61,13 +61,13 @@ We employ two main tables for our data analysis. The primary focus is on the 'ex
 Regarding the metrics of likes, given that it is not strictly contingent on individual swipes, individuals using Hinge might express their interest by liking the profile descriptions we've created. In this context, our unit of measurement for one sample will be based on the date of our experiment. This spans a time frame of 36 days, from October 19th to November 14th, yielding a total of 284 samples.
 
 ```{r read hinge data, include=FALSE, echo=FALSE}
-d<- na.omit(fread("data/W241_Hinge_Data_v3.csv"))
+d<- na.omit(fread("/home/rstudio/Final_project/data/W241_Hinge_Data_v3.csv"))
 setnames(d, "Profile Name", "Profile_Name")
 setnames(d, "Control vs Treatment", "Treat")
 d[, Treat_binary := as.integer(Treat == "Treatment")]
 d[, Date := as.Date(Date, format = "%m/%d")]
 
-exp_d<- na.omit(fread("data/w241_matches_only_expanded.csv"))
+exp_d<- na.omit(fread("/home/rstudio/Final_project/data/w241_matches_only_expanded.csv"))
 setnames(exp_d, "Profile Name", "Profile_Name")
 setnames(exp_d, "Control vs Treatment", "Treat")
 exp_d[, Treat_binary := as.integer(Treat == "Treatment")]
@@ -75,19 +75,20 @@ exp_d[, Date := as.Date(Date, format = "%m/%d")]
 ```
 
 # Randomization Check
-A randomization check was performed to evaluate whether our treatment and control groups make up representative samples. To perform this check two regression models were developed. The first model: null_mod is the simplest and captures the intercept. The second model: full_mod is more complex and includes profile characteristic variables such as: Who created the profile (Owner), The profile's name (Profile), The location -- San Francisco or New York -- the profile is active (City), The day the sample was collected (Day), and the number of swipes taken on the profile (Swipes).
+A randomization check was performed to evaluate whether our treatment and control groups make up representative samples. To perform this check two regression models were developed. The first model: null_mod is the simplest and captures the intercept. The second model: full_mod is more complex and includes profile characteristic variables such as: Who created the profile (Owner), The profile's name (Profile), The location the profile is active (City), The day the sample was collected (Day), and the number of swipes taken on the profile (Swipes).
+
+For 'Matches Experiment', the first simple model illustrates a 0.502 intercept to support the assumption that both treatment and control groups make up representative samples. The second complex model with five covariates illustrates a 0.412 intercept and captures a small pattern; The City variable has a statistically significant correlation with treatment outcomes. This suggests that different profile locations (San Francisco or New York) contribute to sample differences between the treatment group and the control group. An ANOVA test further confirms this difference between treatment and control group based on City - location with a p-value of less than 0.001. However, while the City variable is statistical significant the impact seems impractically significant at 0.167.
 
 
-```{r randomness check, include=FALSE, echo=FALSE}
-null_mod <- exp_d[ , lm(Treat_binary ~ 1)]
+```{r randomness check for match dataset, include=FALSE, echo=FALSE}
+null_mod_matches <- exp_d[ , lm(Treat_binary ~ 1)]
 
-full_mod <- exp_d[ , lm(Treat_binary ~ 1 + OwnerNum + ProfileNum + City + ExpDay_profile + Swipes)]
+full_mod_matches <- exp_d[ , lm(Treat_binary ~ 1 + OwnerNum + ProfileNum + City + ExpDay_profile + Swipes)]
 ```
 
-The first simple model illustrates a 0.502 intercept to support the assumption that both treatment and control groups make up representative samples. The The second complex model with five covariates illustrates a 0.412 intercept and captures a small pattern; The City variable has a statistically significant correlation with treatment outcomes. This suggests that different profile locations (San Francisco or New York) contribute to sample differences between the treatment group and the control group.
 
 ```{r, warning=FALSE, include=TRUE, warning=FALSE, results='asis', echo=FALSE}
-stargazer(null_mod, full_mod, 
+stargazer(null_mod_matches, full_mod_matches, 
           type = "latex",
          covariate.labels = c(
            "Owner", 
@@ -98,12 +99,42 @@ stargazer(null_mod, full_mod,
            "Intercept")
           )
 ```
-However, while the City variable is statistical significant the impact seems impractically significant at 0.167. 
-To further illustrate the minimal impact the City variable has on treatment assignment, we've run an F-test between our two models (null mod, full mod). As suspected, while City location is statistically significant, the difference does not result in material differences in model performance. While variance is higher with our simple model, it still generates the same outcomes as the complex model for 97% of samples.
+
 
 ```{r, echo=FALSE}
-anova_mod <- anova(full_mod, null_mod, test = 'F')
-anova_mod
+anova_mod_matches <- anova(full_mod_matches, null_mod_matches, test = 'F')
+anova_mod_matches
+```
+
+For 'Likes Experiment', the first simple model illustrates a 0.502 intercept to support the assumption that both treatment and control groups make up representative samples with a p-value of <.001. The second complex model with five covariates illustrates a -10.347 intercept with a p-value of .4369. The large shift in the two models' intercept suggests there may be material differences between treatment and control group for our like experiment data. We suspect our low sample size is contributing to our inability to achieve statistically significant results. 
+
+One covariate appears to be the main driver for sample group differences: City Location. With a p-value of 0.01, City covariate is somehow correlated with treatment or control group assignment. However, an ANOVA test cannot confirm whether this difference is material because the p-value is 0.439.
+
+
+```{r randomness check for likes datset, include=FALSE, echo=FALSE}
+null_mod_likes <- d[ , lm(Treat_binary ~ 1)]
+
+full_mod_likes <- d[ , lm(Treat_binary ~ 1 + OwnerNum + ProfileNum + City + Date + Swipes)]
+```
+
+
+```{r, warning=FALSE, include=TRUE, warning=FALSE, results='asis', echo=FALSE}
+stargazer(null_mod_likes, full_mod_likes, 
+          type = "latex",
+         covariate.labels = c(
+           "Owner", 
+           "Profile", 
+           "City - San Francisco", 
+           "Day", 
+           "Swipes", 
+           "Intercept")
+          )
+```
+
+
+```{r, echo=FALSE}
+anova_mod_likes <- anova(full_mod_likes, null_mod_likes, test = 'F')
+anova_mod_likes
 ```
 
 # Data Exploration & Analytics
@@ -175,7 +206,7 @@ owner_match_var_c
 
 ### Variance within Humor Type
 
-Most of the profiles used humor generated by AI tools like ChatGPT, however one set of profiles did not: Owner = "KT" and Owner = "Erin". In order to ensure consistency, the above variance comparisons among the owners also ensures the assumption that the humor type in the prompts regardless of the source are similar enough to be grouped together.
+Most of the profiles used humor generated by AI tools like ChatGPT, however two sets of profiles did not: Owner = "KT" and Owner = "Erin". In order to ensure consistency, the above variance comparisons among the owners also ensures the assumption that the humor type in the prompts regardless of the source are similar enough to be grouped together.
 
 ```{r, Like Distribution Across Profiles, warning=FALSE, echo=FALSE}
 dbr <- d[Owner == "Brian"]
