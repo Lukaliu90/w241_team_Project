@@ -61,13 +61,13 @@ We employ two main tables for our data analysis. The primary focus is on the 'ex
 Regarding the metrics of likes, given that it is not strictly contingent on individual swipes, individuals using Hinge might express their interest by liking the profile descriptions we've created. In this context, our unit of measurement for one sample will be based on the date of our experiment. This spans a time frame of 36 days, from October 19th to November 14th, yielding a total of 284 samples.
 
 ```{r read hinge data, include=FALSE, echo=FALSE}
-d<- na.omit(fread("/home/rstudio/Final_project/data/W241_Hinge_Data_v3.csv"))
+d<- na.omit(fread("data/W241_Hinge_Data_v3.csv"))
 setnames(d, "Profile Name", "Profile_Name")
 setnames(d, "Control vs Treatment", "Treat")
 d[, Treat_binary := as.integer(Treat == "Treatment")]
 d[, Date := as.Date(Date, format = "%m/%d")]
 
-exp_d<- na.omit(fread("/home/rstudio/Final_project/data/w241_matches_only_expanded.csv"))
+exp_d<- na.omit(fread("data/w241_matches_only_expanded.csv"))
 setnames(exp_d, "Profile Name", "Profile_Name")
 setnames(exp_d, "Control vs Treatment", "Treat")
 exp_d[, Treat_binary := as.integer(Treat == "Treatment")]
@@ -653,6 +653,8 @@ Performing an anova shows a p-value of .0994 for likes and a high p-value of .51
 # Conclusion
 
 In summary, our experiment reveals a clear uptick in user engagement when profiles incorporate humor compared to those lacking this element. Notably, we detected a statistically significant impact of humor on the number of matches received by a profile. Additionally, external factors, such as the duration a profile has been active, show a significant influence on user engagement. Intriguingly, profiles experience the highest engagement during their initial weeks online, followed by a gradual decline over time. This trend may be attributed to the algorithms employed by Hinge for profile visibility.
+
+Additional research is needed to explore the ramifications of a humorous personality on profile users with diverse demographic attributes, including gender, race, and age. Furthermore, future investigations may involve actual profile users, incorporating various interventions like interactive engagement through platform chat features, and assessing a broader spectrum of outcome variables, such as the impact of engagement on actual dates.
 
 # Appendix
 Here is a summary of the data columns:
