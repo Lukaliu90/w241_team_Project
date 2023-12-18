@@ -23,51 +23,52 @@ library(dplyr)
 library(lubridate)
 library(tidyr)
 library(cowplot)
+library(gridExtra)
 ```
 
 
 # Abstract
-This study aims to examine how varying personality portrayals in dating app profiles -- independent of accompanying photos -- have on user interactions and engagement. We investigate the user personalities displayed on dating app profiles and their subsequent engagement levels by comparing the effects of creating a neutral personality profile with a highly humorous personality profile. Our experiment generated the following results: dating profiles with humorous textual cues received more likes and matches as the same dating profiles without humorous textual cues with statistical significance. These results can be beneficial for online dating app users as they evaluate where to spend their time as they develop attractive dating profiles.
+This study examines how varying personality portrayals in dating app profiles -- independent of accompanying photos -- affect user interactions and engagement. We investigate the user personalities displayed on dating app profiles and their subsequent engagement levels by comparing the effects of creating a neutral personality profile with a highly humorous one. Our experiment generated the following results: dating profiles with amusing textual cues received more likes and matches than the same dating profiles without funny textual lines with statistical significance. These results can benefit online dating app users as they evaluate where to spend their time developing attractive dating profiles.
 
 # Introduction
-Humor is a universal human experience that promotes bonding and positive social interaction. Historically, humor has been shown to decrease social tension and increase likability. The treatment involving the use of humor in the description is expected to change the measured behavior of humans who receive it. In the context of dating, where first impressions are critical, a humorous profile may pique interest by presenting someone as relatable, fun, and approachable, thereby increasing the chances of having dating success. 
+Humor is a universal human experience that promotes bonding and positive social interaction. Historically, humor has been shown to decrease social tension and increase likability. The treatment involving humor in the description is expected to change the measured behavior of humans who receive it. In the context of dating, where first impressions are critical, a humorous profile may pique interest by presenting someone as relatable, fun, and approachable, thereby increasing the chances of having dating success. 
 
-Our team is interested in investigating whether humorous expressions through textual cues affect dating success on a dating app. Current academic literature has evaluated this concept in similar, yet different, ways. First, a research study has evaluated how messages with different levels of humor impact a person’s perceived attractiveness (Garove and Farley, 2015). Second, a research study evaluated how live humor and laughter in discourse are associated with perceived attractiveness (Hall, 2015). Lastly, a few research studies have evaluated attractiveness (Fiore et all, 2008) or first impressions (Zanden, 2021) specifically within dating apps. However, none of these research studies evaluate whether humorous textual cues within a dating app affect a person’s attractiveness when primary cues like photographs and demographic information remain constant.
+Our team is interested in investigating whether humorous expressions through textual cues affect dating success on a dating app. Current academic literature has evaluated this concept in similar, yet different, ways. First, a research study has evaluated how messages with varying levels of humor impact a person's perceived attractiveness (Garove & Farley, 2015). Second, a research study evaluated how live humor and laughter in discourse are associated with perceived attractiveness (Hall, 2015). Lastly, a few research studies have evaluated attractiveness (Fiore et al., 2008) or first impressions (Zanden, 2021), specifically within dating apps. However, none of these studies evaluate whether humorous textual cues within a dating app affect a person's attractiveness when primary cues like photographs and demographic information remain constant.
 
 # Experiment Concept
-People spend hours daily on dating apps looking for potential partners. The selection process gets more complicated with the increase in the abundance of options available to them. While the superficial qualities and end goals are highly esteemed, a profile with a humorous caption tends to stand out among the numerous mundane ones as it indicates a witty personality, something which is not easily captured through just pictures and usual descriptions. 
+People spend hours daily on dating apps looking for potential partners. The selection process gets more complicated with the increase in the abundance of options available to them. While the superficial qualities and end goals are highly esteemed, a profile with a humorous caption tends to stand out among the numerous mundane ones as it indicates a witty personality, which is not captured through pictures and usual descriptions easily. 
 
-Our intervention variable is the textual differences between two Hinge dating profiles. Some users will experience a dating profile that is humorous and fun (treatment), and others will experience a dating profile that is plain and unimaginative (control). To reduce noise driven by confounding variables, we ensure both profiles have the same characteristics and content apart from responses to question prompts. Controlling for these other factors is an important feature of this experience because while studies have shown that photos and demographics heavily influence dating profile experiences, this experiment focuses on the causal effect personality traits expressed through text has on someone's dating success on Hinge.
+Our intervention variable is the textual differences between the two categories of Hinge dating profiles. Some users will experience a dating profile that is humorous and fun (treatment), and others will experience a plain and unimaginative dating profile (control). To reduce noise driven by confounding variables, we ensure both profiles have the same characteristics and content apart from responses to question prompts. Controlling for these other factors is an essential feature of this experience because while studies have shown that photos and demographics heavily influence dating profile experiences, this experiment focuses on the causal effect of personality traits expressed through text on someone's dating success on Hinge.
 
-Due to limitations in timing and resources, we are utilizing only the Hinge application, but if we replicated the results on other dating apps such as Tinder or Bumble, we would hope to see similar results.
+Due to limitations in timing and resources, we are utilizing only the Hinge application. However, we would likely see similar results if we replicated the results on other dating apps, such as Tinder or Bumble.
 
 # Experiment Design
-The objective of this experiment is to explore the impact of incorporating a humorous personality into dating app profiles on user engagement. Specifically, we compare the effects of creating a neutral personality profile with crafting a highly humorous and intriguing personality description on user interactions and engagement. We targeted the fake users to be a narrowly diverse group of white males aged 18-25. Each team member created fake profiles for both control and treatment groups based on the same photo. In the control group, the profile is created to present as a neutral personality profile while in the treatment group, the profile is created as a highly humorous and intriguing personality in the description. Each team member's profiles used the same photo to ensure that the study focuses solely on the impact of the humorous personality. The fake profiles launched at the same time on the dating app for a specified period of time. The numbers of likes and matches are the key metric to measuring the causal effect. 
+This experiment aims to explore the impact of incorporating a humorous personality into dating app profiles on user engagement. Specifically, we compare the effects of creating a neutral personality profile with crafting a highly humorous and intriguing personality description on user interactions and engagement. We targeted the fake users as a narrowly diverse group of white males aged 25-33. Each team member created fake profiles for control and treatment groups with the same pictures and virtues. In the control group, the profile is neutral, while in the treatment group, the profile is highly humorous and intriguing. The fake profiles were launched at the same time on the dating app for a specified period of time. The number of likes and matches is the key metric for measuring the causal effect. 
 
-We chose two locations in the United States— New York City and San Francisco to introduce the fictitious dating profiles. The underlying assumption is that users of the dating app from these two U.S. locations exhibit similar reactions regardless of whether a humorous personality is presented or not. Additionally, to prevent a single participant from encountering two identical profiles simultaneously, we made the deliberate decision to launch identical profiles in different locations. For instance, one profile (control) is launched in New York, while the other profile (treatment) is launched in San Francisco.
+We chose two locations in the United States— New York City and San Francisco to introduce the fictitious dating profiles. The underlying assumption is that users of the dating app from these two U.S. locations exhibit similar reactions regardless of whether a humorous personality is presented. Additionally, we deliberately launched identical profiles in different locations to prevent a single participant from encountering two identical profiles simultaneously. For every treatment profile launched in New York,  a control profile was launched in San Francisco and vice versa.
 
 The following variables are measured to assess the impact on user engagement:
 Number of profile likes: How many users have liked the profile in a given day
 Number of matches: How many users have matched with the profile
 
-Dating apps necessitate mutual likes for a match to occur, for example, if one profile "swipes" right on five people, their maximum potential matches is limited to five. In the context of this experiment, we refer to "swipes" as a team member's actions to actively like another profile, while "like" refers to the number of likes our user profiles receive in a given day. To ensure that the created profile’s actions (how much time we swipe right) do not unduly influence the effectiveness of our "match" measures, we analyze this data at the swipe level (i.e. one swipe is one sample). This is more thoroughly described in the Data Cleaning section below.
+Dating apps necessitate mutual likes for a match to occur; for example, if one profile "swipes" right on five people, their maximum potential matches are limited to five. In the context of this experiment, we refer to "swipes" as a team member's action to actively like another profile, while "like" refers to the number of likes our user profiles receive in a given day. To ensure that the created profile's actions (how much time we swipe right) do not unduly influence the effectiveness of our "match" measures, we analyze this data at the swipe level (i.e., one swipe is one sample). This is described in more detail in the Data Cleaning section below.
 
 # Data Cleaning
 
-The provided dataset records essential metrics—swipes, likes, and matches —for various user profiles on distinct dates, classified into control and treatment groups. It encompasses information pertaining to user profiles within a dating application (refer to the Appendix for a detailed description of the table columns). 
+The provided dataset records essential metrics—swipes, likes, and matches —for various user profiles, classified into control and treatment groups on distinct dates. It encompasses information about user profiles within a dating application (refer to the Appendix for a detailed description of the table columns). 
 
-We employ two main tables for our data analysis. The primary focus is on the 'exp_d' table for evaluating the metric of matches, which is our key criterion. In this table, we expand the daily swipes into individual samples, creating one swipe per row. This expansion is justified by the fact that matches can only occur when swipes take place. Consequently, for the evaluation of the matches metric, we have a total of 2752 samples.
+We employ two main tables for our data analysis. The primary focus is on the 'exp_d' table for evaluating the metric of matches, which is our key criterion. In this table, we expand the daily swipes into individual samples, creating one swipe per row. This expansion is justified by the fact that matches can only occur when swipes take place. Consequently, we have a total of 2752 samples for the evaluation of the matches metric.
 
-Regarding the metrics of likes, given that it is not strictly contingent on individual swipes, individuals using Hinge might express their interest by liking the profile descriptions we've created. In this context, our unit of measurement for one sample will be based on the date of our experiment. This spans a time frame of 36 days, from October 19th to November 14th, yielding a total of 284 samples.
+Regarding the metrics of likes, given that they are not strictly contingent on individual swipes, individuals using Hinge might express their interest by liking the profile descriptions we have created. In this context, our unit of measurement for one sample will be based on the date of our experiment. This spans 36 days, from October 19th to November 14th, yielding 284 samples.
 
 ```{r read hinge data, include=FALSE, echo=FALSE}
-d<- na.omit(fread("data/W241_Hinge_Data_v3.csv"))
+d<- na.omit(fread("W241_Hinge_Data_v3.csv"))
 setnames(d, "Profile Name", "Profile_Name")
 setnames(d, "Control vs Treatment", "Treat")
 d[, Treat_binary := as.integer(Treat == "Treatment")]
 d[, Date := as.Date(Date, format = "%m/%d")]
 
-exp_d<- na.omit(fread("data/w241_matches_only_expanded.csv"))
+exp_d<- na.omit(fread("w241_matches_only_expanded.csv"))
 setnames(exp_d, "Profile Name", "Profile_Name")
 setnames(exp_d, "Control vs Treatment", "Treat")
 exp_d[, Treat_binary := as.integer(Treat == "Treatment")]
@@ -75,9 +76,9 @@ exp_d[, Date := as.Date(Date, format = "%m/%d")]
 ```
 
 # Randomization Check
-A randomization check was performed to evaluate whether our treatment and control groups make up representative samples. To perform this check two regression models were developed. The first model: null_mod is the simplest and captures the intercept. The second model: full_mod is more complex and includes profile characteristic variables such as: Who created the profile (Owner), The profile's name (Profile), The location the profile is active (City), The day the sample was collected (Day), and the number of swipes taken on the profile (Swipes).
+A randomization check was performed to evaluate whether our treatment and control groups made up representative samples. To perform this check, two regression models were developed. The first model, null_mod, is the simplest and captures the intercept. The second model, full_mod,  is more complex and includes profile characteristic variables such as who created the profile (Owner), the profile's name (Profile), the location where the profile is active (City), the day the sample was collected (Day), and the number of swipes taken on the profile (Swipes).
 
-For 'Matches Experiment', the first simple model illustrates a 0.502 intercept to support the assumption that both treatment and control groups make up representative samples. The second complex model with five covariates illustrates a 0.412 intercept and captures a small pattern; The City variable has a statistically significant correlation with treatment outcomes. This suggests that different profile locations (San Francisco or New York) contribute to sample differences between the treatment group and the control group. An ANOVA test further confirms this difference between treatment and control group based on City - location with a p-value of less than 0.001. However, while the City variable is statistical significant the impact seems impractically significant at 0.167.
+For the 'Matches Experiment', the first simple model illustrates a 0.502 intercept to support the assumption that both treatment and control groups comprise representative samples. The second complex model with five covariates illustrates a 0.412 intercept and captures a small pattern; The City variable has a statistically significant correlation with treatment outcomes. This suggests that different profile locations (San Francisco or New York) contribute to sample differences between the treatment and control groups. An ANOVA test confirms this difference between the treatment and control groups based on city location with a p-value of less than 0.001. However, while the City variable is statistically significant, the impact seems impractically significant at 0.167.
 
 
 ```{r randomness check for match dataset, include=FALSE, echo=FALSE}
@@ -106,9 +107,9 @@ anova_mod_matches <- anova(full_mod_matches, null_mod_matches, test = 'F')
 anova_mod_matches
 ```
 
-For 'Likes Experiment', the first simple model illustrates a 0.502 intercept to support the assumption that both treatment and control groups make up representative samples with a p-value of <.001. The second complex model with five covariates illustrates a -10.347 intercept with a p-value of .4369. The large shift in the two models' intercept suggests there may be material differences between treatment and control group for our like experiment data. We suspect our low sample size is contributing to our inability to achieve statistically significant results. 
+For the 'Likes Experiment,' the first simple model illustrates a 0.502 intercept to support the assumption that both treatment and control groups make up representative samples with a p-value of <.001. The second complex model with five covariates illustrates a -10.347 intercept with a p-value of .4369. The large shift in the two models' intercept suggests there may be material differences between treatment and control groups for our like experiment data. We suspect our low sample size is contributing to our inability to achieve statistically significant results. 
 
-One covariate appears to be the main driver for sample group differences: City Location. With a p-value of 0.01, City covariate is somehow correlated with treatment or control group assignment. However, an ANOVA test cannot confirm whether this difference is material because the p-value is 0.439.
+One covariate is the main driver for sample group differences: City Location. With a p-value of 0.01, the City covariate correlates with treatment or control group assignment. However, an ANOVA test cannot confirm whether this difference is material because the p-value is 0.439.
 
 
 ```{r randomness check for likes datset, include=FALSE, echo=FALSE}
@@ -141,11 +142,11 @@ anova_mod_likes
 
 ## Design Assumptions
 
-Our experiment design for the dating profiles consists of multiple assumptions. We limited our experiment profile features to 25-30 year old white males in two of the biggest cities in the country, New York and San Francisco to ensure consistency in our results. While majority of the factors were kept consistent across all the accounts, some of them were prone to affect the potential outcomes more than the others. So we measured the variance of outcomes across the following factors to justify our assumptions.
+Our experiment design for the dating profiles consists of multiple assumptions. We limited our experiment profile features to 25-33-year-old white heterosexual males in two of the biggest cities in the country, New York and San Francisco, to ensure consistency in our results. While most of the factors were consistent across all the accounts, some were more prone to affect the potential outcomes. So, we measured the variance of outcomes across the following factors to justify our assumptions.
 
 ### Variance within Treatment and Control
 
-The six sets of treatment and control accounts are distributed equivalently across the two selected cities. All of the vitals and virtues are kept exactly the same across each set except for the prompt and the location. While the difference in prompt is the treatment, the location of the accounts were blocked to ensure randomizations that keep treatment and control similar. Moreover this also reduced non-compliances, maening someone liking or matching a control account is unlikely to come across the treatment and vice versa. Before interpreting the results of statistical analysis of the datasets, we looked at the variances between the the control and treatment accounts. So far the following values are similar enough to support our assumption that they will allow for more confident interpretation of the differences in means of control and treatment. accounts.
+The six sets of treatment and control accounts are distributed equivalently across the two selected cities. The vitals and virtues are kept the same across each set except for the prompt and the location. While the difference in the prompt is the treatment, the location of the accounts was blocked to ensure randomizations that keep treatment and control similarly. Moreover, this reduced non-compliance, meaning someone liking or matching a control account, is unlikely to come across the treatment and vice versa. Before interpreting the statistical analysis results of the datasets, we looked at the variances between the control and treatment accounts. So far, the following values are similar enough to support our assumption that they will allow for a more confident interpretation of the differences in means of control and treatment. accounts.
 
 ```{r, echo=FALSE}
 tc_match_var <- d[,var(Matches), by = Treat]
@@ -160,7 +161,7 @@ tc_comments_var
 ```
 ### Variance within Locations
 
-We have three treatment accounts and three control accounts in New York, and three treatment accounts and three control accounts in San Francisco.We assumed that both of the cities are similar in terms of popularity of the Hinge app, and should attract subjects in a similar way. However, to ensure the dispersion of values within each dataset is comparable we calculated the variance as per both treatment and control.
+We have three treatment accounts three control accounts in New York, and three treatment accounts and three control accounts in San Francisco. We assumed that both cities are similar in terms of the popularity of the Hinge app and should attract subjects similarly. However, to ensure the dispersion of values within each dataset is comparable, we calculated the variance per treatment and control, and the results show some disparity between the two cities.
 
 ```{r, echo=FALSE}
 city_like_var_t <-  d[Treat == "Treatment", var(Likes), by = City]
@@ -183,7 +184,7 @@ city_match_var_c
 
 ### Variance within Profile Owners
 
-The six sets of profiles while similar in most aspects differ from each other in a few ways such as different name, age, profile pictures, type of humor and promts. Since these play a crucial role in determining the likelihood of a profile being liked or matched, we computed and compared the variance of the dataset from each owner before adding them in the same group for further analysis.
+While similar in most aspects, the six sets of profiles differ in a few ways, such as names, ages, profile pictures, types of humor, and prompts. Since these play a crucial role in determining the likelihood of a profile being liked or matched, we computed and compared the variance of the dataset from each owner before adding them to the same group for further analysis.
 
 ```{r, echo=FALSE}
 
@@ -206,81 +207,103 @@ owner_match_var_c
 
 ### Variance within Humor Type
 
-Most of the profiles used humor generated by AI tools like ChatGPT, however two sets of profiles did not: Owner = "KT" and Owner = "Erin". In order to ensure consistency, the above variance comparisons among the owners also ensures the assumption that the humor type in the prompts regardless of the source are similar enough to be grouped together.
+Most of the profiles used humor generated by AI tools like ChatGPT. However, two sets of profiles did not: Owner = "KT" and Owner = "Erin". In order to ensure consistency, the above variance comparisons among the owners also ensure the assumption that the humor types in the prompts, regardless of the source, are similar enough to be grouped.
 
-```{r, Like Distribution Across Profiles, warning=FALSE, echo=FALSE}
+The graphs below show the trend of likes and matches across each profile owner throughout the experiment.
+
+```{r, Like Distribution Across Brians Profile, warning=FALSE, echo=FALSE}
 dbr <- d[Owner == "Brian"]
 plotl1 <- ggplot(dbr, aes(x = Date, y = Likes, colors = Date)) +
-  geom_line(color = "blue", size = 5) +
+  geom_line(color = "blue", size = 1) +
   labs(title = "Likes over Time (Brian)", x = "Date", y = "Likes")
-
-der <- d[Owner == "Erin Smith"]
-plotl2 <- ggplot(der, aes(x = Date, y = Likes, colors = Date)) +
-  geom_line(color = "blue", size = 5) +
-  labs(title = "Likes over Time (Erin)", x = "Date", y = "Likes")
-
-dkt <- d[Owner == "KT"]
-plotl3 <- ggplot(dkt, aes(x = Date, y = Likes, colors = Date)) +
-  geom_line(color = "blue", size = 5) +
-  labs(title = "Likes over Time (KT)", x = "Date", y = "Likes")
-
-dlu <- d[Owner == "Luka"]
-plotl4 <- ggplot(dlu, aes(x = Date, y = Likes, colors = Date)) +
-  geom_line(color = "blue", size = 5) +
-  labs(title = "Likes over Time (Luka)", x = "Date", y = "Likes")
-
-dqu <- d[Owner == "Quazi"]
-plotl5 <- ggplot(dqu, aes(x = Date, y = Likes, colors = Date)) +
-  geom_line(color = "blue", size = 5) +
-  labs(title = "Likes over Time (Quazi)", x = "Date", y = "Likes")
-
-
-stacked_like_plots <- plot_grid(plotl1, plotl2, plotl3, plotl4, plotl5, ncol = 1)
-stacked_like_plots
+plotl1
 ```
 
-```{r, Match Distribution Across Owners, warning=FALSE, echo=FALSE}
+```{r, Match Distribution Across Brians Profile, warning=FALSE, echo=FALSE}
 dbr <- d[Owner == "Brian"]
 plotm1 <- ggplot(dbr, aes(x = Date, y = Matches, colors = Date)) +
-  geom_line(color = "blue", size = 5) +
+  geom_line(color = "pink", size = 1) +
   labs(title = "Matches over Time (Brian)", x = "Date", y = "Matches")
-
-der <- d[Owner == "Erin Smith"]
-plotm2 <- ggplot(der, aes(x = Date, y = Matches, colors = Date)) +
-  geom_line(color = "blue", size = 5) +
-  labs(title = "Matches over Time (Erin)", x = "Date", y = "Matches")
-
-dkt <- d[Owner == "KT"]
-plotm3 <- ggplot(dkt, aes(x = Date, y = Matches, colors = Date)) +
-  geom_line(color = "blue", size = 5) +
-  labs(title = "Matches over Time (KT)", x = "Date", y = "Matches")
-
-dlu <- d[Owner == "Luka"]
-plotm4 <- ggplot(dlu, aes(x = Date, y = Matches, colors = Date)) +
-  geom_line(color = "blue", size = 5) +
-  labs(title = "Matches over Time (Luka)", x = "Date", y = "Matches")
-
-dqu <- d[Owner == "Quazi"]
-plotm5 <- ggplot(dqu, aes(x = Date, y = Matches, colors = Date)) +
-  geom_line(color = "blue", size = 5) +
-  labs(title = "Matches over Time (Erin)", x = "Date", y = "Matches")
-
-stacked_match_plots <- plot_grid(plotm1, plotm2,plotm3,plotm4,plotm5, ncol = 1)
-stacked_match_plots
+plotm1
 ```
 
+```{r, Like Distribution Across Erins Profiles, warning=FALSE, echo=FALSE}
+der <- d[Owner == "Erin Smith"]
+plotl2 <- ggplot(der, aes(x = Date, y = Likes, colors = Date)) +
+  geom_line(color = "blue", size = 1) +
+  labs(title = "Likes over Time (Erin)", x = "Date", y = "Likes")
+plotl2
+```
+
+```{r, Match Distribution Across Erins Profile, warning=FALSE, echo=FALSE}
+der <- d[Owner == "Erin Smith"]
+plotm2 <- ggplot(der, aes(x = Date, y = Matches, colors = Date)) +
+  geom_line(color = "pink", size = 1) +
+  labs(title = "Matches over Time (Erin)", x = "Date", y = "Matches")
+plotm2
+```
+
+```{r, Like Distribution Across KTs Profiles, warning=FALSE, echo=FALSE}
+dkt <- d[Owner == "KT"]
+plotl3 <- ggplot(dkt, aes(x = Date, y = Likes, colors = Date)) +
+  geom_line(color = "blue", size = 1) +
+  labs(title = "Likes over Time (KT)", x = "Date", y = "Likes")
+plotl3
+```
+
+```{r, Match Distribution Across KTs Profile, warning=FALSE, echo=FALSE}
+dkt <- d[Owner == "KT"]
+plotm3 <- ggplot(dkt, aes(x = Date, y = Matches, colors = Date)) +
+  geom_line(color = "pink", size = 1) +
+  labs(title = "Matches over Time (KT)", x = "Date", y = "Matches")
+plotm3
+```
+
+```{r, Like Distribution Across Lukas Profiles, warning=FALSE, echo=FALSE}
+dlu <- d[Owner == "Luka"]
+plotl4 <- ggplot(dlu, aes(x = Date, y = Likes, colors = Date)) +
+  geom_line(color = "blue", size = 1) +
+  labs(title = "Likes over Time (Luka)", x = "Date", y = "Likes")
+plotl4
+```
+
+```{r, Match Distribution Across Lukas Profile, warning=FALSE, echo=FALSE}
+dlu <- d[Owner == "Luka"]
+plotm4 <- ggplot(dlu, aes(x = Date, y = Matches, colors = Date)) +
+  geom_line(color = "pink", size = 1) +
+  labs(title = "Matches over Time (Luka)", x = "Date", y = "Matches")
+plotm4
+```
+
+```{r, Like Distribution Across Quazis Profiles, warning=FALSE, echo=FALSE}
+dqu <- d[Owner == "Quazi"]
+plotl5 <- ggplot(dqu, aes(x = Date, y = Likes, colors = Date)) +
+  geom_line(color = "blue", size = 1) +
+  labs(title = "Likes over Time (Quazi)", x = "Date", y = "Likes")
+plotl5
+```
+
+```{r, Match Distribution Across Quazis Profile, warning=FALSE, echo=FALSE}
+dqu <- d[Owner == "Quazi"]
+plotm5 <- ggplot(dqu, aes(x = Date, y = Matches, colors = Date)) +
+  geom_line(color = "pink", size = 1) +
+  labs(title = "Matches over Time (Erin)", x = "Date", y = "Matches")
+plotm5
+```
+
+The trend shown across the likes and matches each owner receives in the above graphs shows an approximate similarity to validate our final hypothesis.
 
 ## Challenges and Limitations
 
-We resorted to using artificial intelligence generated pictures for profile owners to avoid any privacy invasion of an actual person or possible accusation opf cat fishing. As advanced as AI is, almost half of our accounts got flagged at one point due to Hinge Trust & Service policy violation during the four week duration of the experiment. Some comments indicated users were able to tell that the accounts were counterfeit. The first set got deleted on day 2, so we re-created similar accounts. The second set got flagged around day 7 and again we followed similar recovery plan. The third set got banned on week 3, and demanded proof of the fake profile owner data were using, so that one could not be recovered.
+We resorted to using artificial intelligence-generated pictures for profile owners to avoid any privacy invasion of an actual person or possible accusation of catfishing. As advanced as AI is, almost half of our accounts got flagged at one point due to Hinge Trust & Service policy violation during the four-week duration of the experiment. Some comments indicated that users could tell that the accounts were counterfeit. The first set got deleted on day 2, so we re-created similar accounts. The second set got flagged around day seven, and again we followed a similar recovery plan. The third set got banned on week three and demanded ID proof of the fake profile owner, so that one could not be recovered.
 
-Our only interaction on the profiles was to like 10 accounts in a row per day. This limited interaction reduced our chances of getting more matches and likes as the profile visibility is dependent on how interactive the users are, and other than swipes, it is difficult to maintain consistency of interactions between each user.
+Our only interaction on the profiles was to swipe on 10 accounts in a row per day. This limited interaction reduced our chances of getting more matches and likes as the profile visibility depends on how interactive the users are. Other than swipes, it isn't easy to maintain consistency of interactions between each user.
 
 # Experimentation
 
 In this section, we dive deeper into the analysis of our experiment, aiming to elucidate the impact of incorporating a humorous personality into dating app profiles while accounting for various control variables. Our primary objective remains consistent: to assess the effect of the treatment variable, denoting the presence of a highly humorous and intriguing personality description within the profile, on user engagement metrics, specifically, the number of likes and matches.
 
-We performed a power analysis simulation before the experiment, in order to ensure a high probability (80%) of detecting a treatment effect of 20%. In this case, a treatment effect of 20% suggests that the study is designed to detect a 20% difference between groups, which could be a treatment group and a control group. A sample size of 400 is recommended for the statistical test being conducted.
+We performed a power analysis simulation before the experiment to ensure a high probability (80%) of detecting a treatment effect of 20%. In this case, a treatment effect of 20% suggests that the study is designed to detect a 20% difference between groups, such as a treatment group and a control group. A sample size of 400 is recommended for conducting the statistical test.
 
 ```{r power analysis, warning=FALSE, include=FALSE, echo=FALSE}
 
@@ -349,13 +372,13 @@ cat("Target Sample Size:", target_sample_size, "\n")
 cat("Target Treatment Effect Size:", target_effect_size, "\n")
 ```
 
-This experiment was conducted for 45 days. However, due to unforeseen issues with profiles being removed unexpectedly, we were not able to collect data for all of those days. We were able to get a total of 283 samples in terms of unique profiles collecting data per day. To analyze the number of matches each profile received, we expanded the data for that model so that each sample is actually a single "swipe" or "like" that the profile sent in a day. This means that the outcome variable for each sample is a binary indicator variable indicating whether or not that swipe garnered a match or not. The total number of samples for our match model is 2742.
+This experiment was conducted for 45 days. However, due to unforeseen issues with profiles being removed unexpectedly, we could not collect data for all of those days. We got a total of 283 samples in terms of unique profiles collecting data per day. To analyze the number of matches each profile received, we expanded the data for that model so that each sample is a single "swipe" or "like" that the profile sent in a day. This means that the outcome variable for each sample is a binary key for indicating whether or not that swipe garnered a match. The total number of samples for our match model is 2742.
 
-Analyzing the likes that a profile received is a bit more complicated than that. It is unclear exactly how Hinge decides to show certain profiles to users, so it is impossible to determine the total number of users that actually encoutered our profiles in a given day. Therefore, we will analyze the lkes on a per day sample. That is to say that a single sample represents a single day in our experiment and the outcome variable is the nubmer of likes that a profile received. Thhe total number of samples for our likes model is 283.
+We analyzed the likes that a profile received is a bit more complicated than that. It is unclear exactly how Hinge shows certain profiles to users, so it is impossible to determine the total number of users actually encountered our profiles in a given day. Therefore, we will analyze the likes on a per-day sample. That is to say that a single sample represents a single day in our experiment, and the outcome variable is the number of likes that a profile receives. The total number of samples for our likes model is 283.
 
 ## Number of Matches Experiment - Simple
 
-Using a t-test, we compared the mean matches between two groups. The t-value is approximately, -3.3309, and the p-value is 0.0008773. The results suggest a statistically significant difference in means between control and treatment, as indicated by the small p-value and the confidence interval(-0.06248673 -0.01617828) that does not include zero. The negative t-value suggests that the mean in treatment is higher than the mean in control."
+Using a t-test, we compared the mean matches between the two groups. The t-value is approximately -3.3309, and the p-value is 0.0008773. The results suggest a statistically significant difference in means between control and treatment, as indicated by the small p-value and the confidence interval(-0.06248673 -0.01617828) that does not include zero. The negative t-value suggests that the mean in treatment is higher than the mean in control."
 
 ```{r matches_t_test, include=TRUE, echo=FALSE}
 match_d <- exp_d[, c('match',"Treat_binary")]
@@ -365,7 +388,7 @@ t_test_matches
 
 ```
 
-We conducted a regression analysis to examine the impact of treatment 'match'. The 'Treat_binary' coefficient (0.039) indicates that, on average, there is a 0.039-unit increase in the 'Match' variable for treatment group, which is 'Treat_binary'= 1. The p-value associated with 'Treat_binary' is highly significant (***p<0.01), suggesting that 'Treat_binary' is a significant predictor of 'match.' Since we are exploring whether there is a significant difference between control and treatment groups in matches, the t-test and a simple linear regression produce a very similar result. 
+We conducted a regression analysis to examine the impact of treatment 'match'. The 'Treat_binary' coefficient (0.039) indicates an average 0.039-unit increase in the 'Match' variable for the treatment group, which is 'Treat_binary'= 1. The p-value associated with 'Treat_binary' is highly significant (***p<0.01), suggesting that 'Treat_binary' is a significant predictor of 'match.' Since we are exploring whether there is a significant difference between control and treatment groups in matches, the t-test and a simple linear regression produce a very similar result. 
 
 ```{r matches_regression, include=TRUE, warning=FALSE, results='asis', echo=FALSE}
 mod <- lm(match ~ Treat_binary, data=match_d) 
@@ -376,7 +399,7 @@ stargazer(mod, type = "latex", header=FALSE,
           se = list(sqrt(diag(vcovHC(mod, type = "HC3")))))
 ```
 
-The 'Treat_binary' coefficient (0.039) indicates that, on average, there is a 0.039-unit increase in the 'match' variable for treatment group, which is 'Treat_binary'= 1. The p-value associated with 'Treat_binary' is highly significant (***p<0.01), suggesting that 'Treat_binary' is a significant predictor of 'match.' Since we are exploring whether there is a significant difference between control and treatment groups in matches, the t-test and a simple linear regression produce a very similar result. 
+The 'Treat_binary' coefficient (0.039) indicates an average 0.039-unit increase in the 'match' variable for the treatment group, which is 'Treat_binary'= 1. The p-value associated with 'Treat_binary' is highly significant (***p<0.01), suggesting that 'Treat_binary' is a significant predictor of 'match.' Since we are exploring whether there is a significant difference between control and treatment groups in matches, the t-test and a simple linear regression produce a similar result. 
 
 ## Number of Matches Expriment - Comphrehesive 
 
@@ -415,18 +438,17 @@ stargazer(
 
 ## Matches Model Interpretation
 
-Model 1: We included city data (limited to San Francisco and New York City) to assess its potential influence on dating app matches. As anticipated, incorporating humor into profiles significantly increased matches, regardless of city location. This aligns with our assumption that individuals in these two major cities would exhibit similar behavior regarding online dating preferences.
+Model 1: We included city data (limited to San Francisco and New York City) to assess its potential influence on dating app matches. As anticipated, incorporating humor into profiles significantly increased matches, regardless of city location, which aligns with our assumption that individuals in these two major cities would exhibit similar behavior regarding online dating preferences.
 
-Model 2: By incorporating "profile_id" as a categorical variable in our analysis, we were able to demonstrate that all six profiles exhibited statistically significant differences in their average number of matches compared to the control group. This finding provides valuable insights into how individual profile characteristics influence dating app success and highlights the importance of considering individual variability in such research.
+Model 2: By incorporating "profile_id" as a categorical variable in our analysis, we demonstrated that all six profiles exhibited statistically significant differences in their average number of matches compared to the control group. This finding provides valuable insights into how individual profile characteristics influence dating app success and highlights the importance of considering individual variability in such research.
 
-Model 3: This model further expands by incorporating the day of the week the user profile was active (coded as a factor with seven levels). Consistent with the previous model, the results reaffirm that incorporating humor significantly increases the number of matches received, and individual profile characteristics remain influential factors in dating app success. However, similar to city location, weekday does not appear to have a statistically significant impact on match count.
+Model 3: This model further expands by incorporating the day of the week the user profile was active (coded as a factor with seven levels). Consistent with the previous model, the results reaffirm that incorporating humor significantly increases the number of matches received, and individual profile characteristics remain influential factors in dating app success. However, like city location, weekdays do not significantly impact match count statistically.
 
-Model 4: This model expands upon previous iterations by incorporating "ExpDay_profile," which signifies the duration since a profile's creation. This addition enables us to examine the relationship between the number of days a profile is active on the app (exposure days) and the number of matches received. The negative coefficient (-0.00238) associated with ExpDay_profile reveals that as the exposure days increase, the average number of matches received decreases. This finding suggests the potential presence of a decay effect, where the initial boost experienced by new profiles gradually diminishes over time. Consequently, the importance of profile refresh or update strategies to sustain user engagement and maintain match potential is highlighted.
-
+Model 4: This model expands upon previous iterations by incorporating "ExpDay_profile," which signifies the duration since a profile's creation. This addition enables us to examine the relationship between the number of days a profile is active on the app (exposure days) and the number of matches received. The negative coefficient (-0.00238) associated with ExpDay_profile reveals that the average number of matches received decreases as the exposure days increase. This finding suggests the potential presence of a decay effect, where the initial boost experienced by new profiles gradually diminishes over time. Consequently, the importance of profile refresh or update strategies to sustain user engagement and maintain match potential is highlighted.
 
 ## Number of Likes Experiment - Simple
 
-We conducted a t-test to compare the mean number of matches between the treatment and control groups. The resulting t-value was approximately -1.6386, and the corresponding p-value was found to be 0.1025. These outcomes suggest that there is no statistically significant difference in the number of matches between the two groups. 
+We conducted a t-test to compare the mean matches between the treatment and control groups. The resulting t-value was approximately -1.6386, and the corresponding p-value was found to be 0.1025. These outcomes suggest no statistically significant difference in the number of matches between the two groups. 
 
 ```{r likes_t_test, echo=FALSE}
 like_d <- d[, c('Likes',"Treat_binary")]
@@ -435,7 +457,7 @@ t_test_likes <- t.test(Likes ~ Treat_binary, d=like_d)
 t_test_likes
 ```
 
-Furthermore, the 95% confidence interval for the difference in means, (-1.2094231 to 0.1107316), encompasses zero. This observation signifies that we do not have sufficient evidence to establish any statistical significance in the comparison of mean matches between the treatment and control groups.
+Furthermore, the 95% confidence interval for the difference in means (-1.2094231 to 0.1107316) encompasses zero. This observation signifies that we do not have sufficient evidence to establish any statistical significance in comparing mean matches between the treatment and control groups.
 
 ```{r likes_regression, echo=FALSE, warning=FALSE, results='asis'}
 
@@ -447,14 +469,14 @@ stargazer(mod, type = "latex", header=FALSE,
           se = list(sqrt(diag(vcovHC(mod, type = "HC3")))))
 ```
 
-We conducted a regression analysis to examine the impact of treatment, on the number of 'Likes' received in dating app profiles. The coefficient for the treatment variable is 0.549, indicating that profiles with a humorous personality description (in the treatment group) tend to receive approximately 0.549 more 'Likes' compared to profiles without such descriptions (in the control group). However, this result does not reach statistical significance (p > 0.1), suggesting that the effect of the treatment on 'Likes' is not statistically conclusive.
+We conducted a regression analysis to examine the impact of treatment on the number of 'Likes' received in dating app profiles. The coefficient for the treatment variable is 0.549, indicating that profiles with a humorous personality description (in the treatment group) tend to receive approximately 0.549 more 'Likes' compared to profiles without such descriptions (in the control group). However, this result does not reach statistical significance (p > 0.1), suggesting that the effect of the treatment on 'Likes' is not statistically conclusive.
 
-The constant term in the model is 1.993, representing the estimated number of 'Likes' for profiles in the control group. The overall model explains a small portion of the variability in 'Likes' (R-squared = 0.009) and has a limited ability to predict the number of 'Likes' based on the treatment variable. The F-statistic is 2.680, with a corresponding p-value greater than 0.1, indicating that the model does not provide strong evidence for the relationship between the treatment variable and 'Likes.'
+The constant term in the model is 1.993, representing the estimated number of 'Likes' for profiles in the control group. The overall model explains a small portion of the variability in 'Likes' (R-squared = 0.009) and cannot predict the number of 'Likes' based on the treatment variable. The F-statistic is 2.680, with a p-value more significant than 0.1, indicating that the model does not provide strong evidence for the relationship between the treatment variable and 'Likes.'
 
 In summary, while there is a positive association between the treatment and the number of 'Likes,' our results do not demonstrate statistical significance. Therefore, the impact of a humorous personality description on the number of 'Likes' in dating app profiles remains inconclusive based on this analysis.
 
 ## Number of Likes Expriment - Comphrehesive 
-Building upon the foundation laid in the earlier section, where we examined the simple relationships between the treatment variable and our outcome variables, Likes and Matches, we recognize the need to consider a broader context. By doing so, we aim to control for potential confounding variables that might otherwise obscure the true impact of the treatment variable. These control variables encompass demographic and contextual factors, allowing us to explore how the humorous personality description affects user engagement while holding other relevant factors constant.
+Building upon the foundation in the earlier section, where we examined the sample relationships between the treatment variable and our outcome variables, Likes and Matches, we recognize the need to consider a broader context. By doing so, we aim to control for potential confounding variables that might otherwise obscure the true impact of the treatment variable. These control variables encompass demographic and contextual factors, allowing us to explore how the humorous personality description affects user engagement while holding other relevant factors constant.
 
 ```{r likes_regression_complex, warning=FALSE, results='asis', echo=FALSE}
 mod_1 <- lm(Likes ~ Treat_binary + Swipes, data=d)
@@ -493,22 +515,22 @@ stargazer(
 
 ```
 
-The coefficient for our binary treatment variable varies between 0.549 and 0.598 across different models, suggesting that profiles featuring a humorous description tend to attract more "Likes" compared to profiles without humor. However, it's worth noting that not all p-values across the models consistently reach statistical significance, with only 3 out of 5 falling below the 0.05 threshold.
+The coefficient for our binary treatment variable varies between 0.549 and 0.598 across different models, suggesting that profiles featuring a humorous description tend to attract more "Likes" compared to profiles without humor. However, it is worth noting that not all p-values across the models consistently reach statistical significance, with only 3 out of 5 falling below the 0.05 threshold.
 
-The profile owner variable indicates the individual who created the profile (i.e., the group member responsible for the user's creation). Notably, profiles owned by Quazi consistently exhibit positive coefficients ranging from 3.290 to 3.665 across models. This implies that profiles created by Quazi have a highly statistically significant impact on the number of "Likes" received in these models at the 0.01 significance level.
+The profile owner variable indicates the individual who created the profile (i.e., the group member responsible for the user's creation). Notably, profiles owned by Quazi consistently exhibit positive coefficients ranging from 3.290 to 3.665 across models. This implies that Quazi's profiles have a statistically significant impact on the number of "Likes" received in these models at the 0.01 significance level.
 
-Time also emerges as a significant factor in this experiment. In models that consider the day of the week, Thursday demonstrates a coefficient between 0.932 and 0.984, achieving statistical significance at the 0.05 level. Furthermore, the day of the experiment itself proves to be highly significant at the 0.01 level, with a coefficient of -0.057. This suggests a negative effect on the number of 'Likes' a profile receives on later days during the experiment.
+Time also emerges as a significant factor in this experiment. In models considering the day of the week, Thursday demonstrates a coefficient between 0.932 and 0.984, achieving statistical significance at 0.05. Furthermore, the day of the experiment proved to be highly significant at the 0.01 level, with a coefficient of -0.057. This suggests a negative effect on the number of 'Likes' a profile receives on later days during the experiment.
 
-In summary, the inclusion of humor in dating app profiles is linked to an increase in the number of "Likes" and is statistically significant. Additional factors, such as specific profile identifiers and the timing of the experiment, including the day of the week and the day of the experiment, also exert influence on "Likes." However, the impact of factors like the day of the week, the user's city location, and the number of daily swipes often appears less pronounced and frequently fails to reach statistical significance in the presented models.
+In summary, the inclusion of humor in dating app profiles is linked to an increase in the number of "Likes" and is statistically significant. Additional factors, such as specific profile identifiers and the timing of the experiment, including the day of the week and the day of the experiment, also influence "Likes." However, the impact of factors like the day of the week, the user's city location, and the number of daily swipes often appeared less pronounced and frequently fails to reach statistical significance in the presented models.
 
 ## Experimentation Results
 
-The results from both the matches and likes analysis indicate that having a humorous personality description significantly influences user engagement on dating apps, particularly through an increase in both matches and likes. The control variables in these models do not exhibit significant effects on being in the treatment group, reinforcing the importance of personality traits expressed through text in shaping user interactions and experiences on dating apps.
+The matches and likes analysis results indicate that having a humorous personality description significantly influences user engagement on dating apps, mainly through increased matches and likes. The control variables in these models do not exhibit significant effects on being in the treatment group, reinforcing the importance of personality traits expressed through text in shaping user interactions and experiences on dating apps.
 
 
 ## Heterogeneous Treatment Effects (HTE)
 
-There are three groups in particular for our experiment to break down: treatment effects by Owner, City, and Time.  Owner will measure if there is any disparate impacts by the different team members, essentially looking for if any owners are more humorous than others.  City will measure if the selection of New York as the treatment or control had any impact on the results.  Time will measure any impact by weeks since opening the account (there is an internet theory that Hinge will boost the likes you receive when first opening an account).
+There are three groups for our experiment to break down: treatment effects by Owner, City, and Time. The owner will measure any disparate impacts by the different team members, looking for if any owners are more humorous than others. The city will measure if the selection of New York as the treatment or control impacted the results. Time will measure any impact by weeks since opening the account (there is an internet theory that Hinge will boost the likes you receive when opening an account).
 
 ```{r HTE_preprocessing, include=TRUE, warning=FALSE, echo=FALSE}
 
@@ -556,7 +578,7 @@ final_dataset <- final_dataset %>%
 
 # HTE by Owner
 
-From a simple average treatment effect by owner, there seems to be significant discrepancy between owners.  For likes, Quazi's treatment had a negative impact, while Erin's treatment had the highest impact.  Interestingly, Quazi's treatment had the highest impact on matches, indicating that perhaps there is some complexity to Quazi's humor.
+From a simple average treatment effect by the owner, there is a significant discrepancy between owners. For likes, Quazi's treatment had a negative impact, while Erin's treatment had the highest impact. Interestingly, Quazi's treatment had the highest impact on matches, indicating some complexity to Quazi's humor.
 
 ```{r HTE_owner_average, include=TRUE, warning=FALSE, echo=FALSE}
 # average by owner
@@ -571,7 +593,7 @@ average_treatment_effect
 
 ```
 
-Performing an ANOVA on likes and matches, we can see that the ANOVA test for likes is almost statistically significant with a p-value of 0.0783.  The p-value suggests that there are differences in the average number of likes between different owners, but these differences are not statistically significant at the 5% level (though they are close). It implies that while there is some variation in likes attributable to the different owners, this variation might be due to chance.
+Performing an ANOVA on likes and matches, the ANOVA test for likes is almost statistically significant, with a p-value of 0.0783. The p-value suggests differences in the average number of likes between different owners, but these differences are not statistically significant at the 5% level (though they are close). While some variation in likes is attributable to the different owners, this variation may be due to chance.
 
 ```{r HTE_owner_anova, include=TRUE, warning=FALSE, echo=FALSE}
 
@@ -586,10 +608,10 @@ summary(anova_matches)
 
 ```
 
-The ANOVA test for matches is not statistically significant at all with a p-value of 0.552, indicating any differences are probably due to chance.
+The ANOVA test for matches is not statistically significant, with a p-value of 0.552, indicating any differences are probably due to chance.
 
 # HTE By City
-We next want to investigate whether the city had a significant impact on treatments. While the last test was interesting to measure which owner was the most humorous, this is the most important test for our team.  We made a significant assumption that city selection would not impact the likes or matches received, so now we must confirm this.
+We next want to investigate whether the city significantly impacted treatments. While the last test was interesting to measure which owner was the most humorous, this is the most crucial test for our team. We made a significant assumption that city selection would not impact the likes or matches received, so now we must confirm this.
 
 ```{r HTE_city_avg, include=TRUE, warning=FALSE, echo=FALSE}
 
@@ -603,9 +625,9 @@ average_treatment_effect_city
 
 ```
 
-We can immediately see that selecting New York as the treatment city provided approximately 0.6 more likes per day than picking San Francisco as a treatment.  There seems to be very little variation in the average effect on matches.  There is an additional row here which indicates a data defect.  It seems there was a row that that did not have the control city marked.  
+We can immediately see that selecting New York as the treatment city provided approximately 0.6 more likes per day than picking San Francisco as a treatment. There is slight variation in the average effect on matches. There is an additional row here that indicates a data defect. There was a row that did not have the control city marked.  
 
-Let's see if the treatment city is statistically significant.
+Let us see if the treatment city is statistically significant.
 
 ```{r HTE_owner_t, include=TRUE, warning=FALSE, echo=FALSE}
 # T-Test for Likes
@@ -620,10 +642,10 @@ t_test_matches_city
 
 ```
 
-The t-test for likes has a p-value of 0.11 which is not statistically significant.  Similiar to the owner analysis, it implies that while there is some variation in likes attributable to the treatment city, this variation might be due to chance.  As expected for our matches t-test, there is very a high p-value of 0.96, indicating that the variation is most likely due to chance.
+The t-test for likes has a p-value of 0.11, which is not statistically significant. Similar to the owner analysis, it implies that while there is some variation in likes attributable to the treatment city, this variation may be due to chance. As expected for our matches t-test, there is a very high p-value of 0.96, indicating that the variation is most likely due to chance.
 
 # HTE by Weeks
-When creating our hinge accounts, we noticed that the number of likes was very high at first and then tapered off.  We want to confirm if this has any impact on our treatment.
+When creating our hinge accounts, we noticed that the number of likes was very high initially and then tapered off. We want to confirm if this has any impact on our treatment.
 
 ```{r HTE_weeks_average, include=TRUE, warning=FALSE, echo=FALSE}
 #HTE by weeks
@@ -636,7 +658,7 @@ average_treatment_effect_week <- final_dataset %>%
 average_treatment_effect_week
 
 ```
-Interestingly, we can see the average effect of likes does steadily decline but then rises back up, creating a U-shape.  The matches behavior seems to not have any discerning pattern.
+Interestingly, the average effect of likes steadily declines but then rises back up, creating a U-shape. The matchs' behavior does not have any discerning pattern.
 
 ```{r HTE_weeks_anova, include=TRUE, warning=FALSE, echo=FALSE}
 # ANOVA for Likes
@@ -648,16 +670,19 @@ anova_matches_week <- aov(treatment_effect_matches ~ weeks_since_start, data = f
 summary(anova_matches_week)
 ```
 
-Performing an anova shows a p-value of .0994 for likes and a high p-value of .519 for matches.  Again similiar to the other HTE's, it implies that while there is some variation in likes attributable to the week since the account opened, this variation might be due to chance
+Performing an ANOVA shows a p-value of .0994 for likes and a high p-value of .519 for matches. Again, similiar to the other HTEs, it implies that while there is some variation in likes attributable to the week since the account opened, this variation might be due to chance.
 
 # Conclusion
 
-In summary, our experiment reveals a clear uptick in user engagement when profiles incorporate humor compared to those lacking this element. Notably, we detected a statistically significant impact of humor on the number of matches received by a profile. Additionally, external factors, such as the duration a profile has been active, show a significant influence on user engagement. Intriguingly, profiles experience the highest engagement during their initial weeks online, followed by a gradual decline over time. This trend may be attributed to the algorithms employed by Hinge for profile visibility.
+Our experiment reveals a clear uptick in user engagement when profiles incorporate humor compared to those lacking this element. Notably, we detected a statistically significant impact of humor on the number of matches received by a profile. Additionally, external factors, such as the duration a profile has been active, significantly influence user engagement. Intriguingly, profiles experience the highest engagement during their initial weeks online, followed by a gradual decline over time. This trend may be attributed to the algorithms employed by Hinge for profile visibility.
 
-Additional research is needed to explore the ramifications of a humorous personality on profile users with diverse demographic attributes, including gender, race, and age. Furthermore, future investigations may involve actual profile users, incorporating various interventions like interactive engagement through platform chat features, and assessing a broader spectrum of outcome variables, such as the impact of engagement on actual dates.
+Additional research is needed to explore the ramifications of a humorous personality on profile users with diverse demographic attributes, including gender, race, and age. Furthermore, future investigations may involve the following upgrades:
+actual profile users,
+incorporating various interventions like interactive engagement through platform chat features and
+assessing a broader spectrum of outcome variables, such as the impact of engagement on actual dates.
 
 # Appendix
-Here is a summary of the data columns:
+Summary of the data columns:
 
 - Owner: The team member who owns the profile.
 - OwnerNum (Categorical): Owner variable transformed into an integer variable
